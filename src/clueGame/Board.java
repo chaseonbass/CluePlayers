@@ -245,8 +245,8 @@ public class Board {
 		for (int i = 0; i < index.length; i++) {
 			Point temp = indexToCoord(index[i]);
 			// NOTE: I fixed this function to return (r,c) instead of (c,r)
-			int r = temp.x;
-			int c = temp.y;
+			int row = temp.x;
+			int column = temp.y;
 
 			LinkedList<Integer> tempAdj = new LinkedList<Integer>();
 			
@@ -257,37 +257,37 @@ public class Board {
 			//check direction
 			
 				if (isWalkable(i)) {
-					if (c > 0) { // left
-						if (isWalkable(calcIndex(r, c - 1)) && !bothSameRoomDoorways(i, calcIndex(r, c - 1)))
-							if (cells.get(calcIndex(r, c - 1)) instanceof Walkway){
-								tempAdj.add(calcIndex(r, c - 1)); 
+					if (column > 0) { // left
+						if (isWalkable(calcIndex(row, column - 1)) && !bothSameRoomDoorways(i, calcIndex(row, column - 1)))
+							if (cells.get(calcIndex(row, column - 1)) instanceof Walkway){
+								tempAdj.add(calcIndex(row, column - 1)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r, c - 1))).getDoorDirection() == RoomCell.DoorDirection.RIGHT)
-										tempAdj.add(calcIndex(r, c - 1)); 
+							else if (((RoomCell) cells.get(calcIndex(row, column - 1))).getDoorDirection() == RoomCell.DoorDirection.RIGHT)
+										tempAdj.add(calcIndex(row, column - 1)); 
 					}
-					if (c < numColumns - 1) { // right
-						if (isWalkable(calcIndex(r, c + 1)) && !bothSameRoomDoorways(i, calcIndex(r, c + 1)))
-							if (cells.get(calcIndex(r, c + 1)) instanceof Walkway){
-								tempAdj.add(calcIndex(r, c + 1)); 
+					if (column < numColumns - 1) { // right
+						if (isWalkable(calcIndex(row, column + 1)) && !bothSameRoomDoorways(i, calcIndex(row, column + 1)))
+							if (cells.get(calcIndex(row, column + 1)) instanceof Walkway){
+								tempAdj.add(calcIndex(row, column + 1)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r, c + 1))).getDoorDirection() == RoomCell.DoorDirection.LEFT)
-										tempAdj.add(calcIndex(r, c + 1)); 
+							else if (((RoomCell) cells.get(calcIndex(row, column + 1))).getDoorDirection() == RoomCell.DoorDirection.LEFT)
+										tempAdj.add(calcIndex(row, column + 1)); 
 					}
-					if (r > 0) { // up
-						if (isWalkable(calcIndex(r - 1, c)) && !bothSameRoomDoorways(i, calcIndex(r - 1, c)))
-							if (cells.get(calcIndex(r - 1, c)) instanceof Walkway){
-								tempAdj.add(calcIndex(r - 1, c)); 
+					if (row > 0) { // up
+						if (isWalkable(calcIndex(row - 1, column)) && !bothSameRoomDoorways(i, calcIndex(row - 1, column)))
+							if (cells.get(calcIndex(row - 1, column)) instanceof Walkway){
+								tempAdj.add(calcIndex(row - 1, column)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r - 1, c))).getDoorDirection() == RoomCell.DoorDirection.DOWN)
-										tempAdj.add(calcIndex(r - 1, c)); 
+							else if (((RoomCell) cells.get(calcIndex(row - 1, column))).getDoorDirection() == RoomCell.DoorDirection.DOWN)
+										tempAdj.add(calcIndex(row - 1, column)); 
 					}
-					if (r < numRows - 1) { // down
-						if (isWalkable(calcIndex(r + 1, c)) && !bothSameRoomDoorways(i, calcIndex(r + 1, c)))
-							if (cells.get(calcIndex(r + 1, c)) instanceof Walkway){
-								tempAdj.add(calcIndex(r + 1, c)); 
+					if (row < numRows - 1) { // down
+						if (isWalkable(calcIndex(row + 1, column)) && !bothSameRoomDoorways(i, calcIndex(row + 1, column)))
+							if (cells.get(calcIndex(row + 1, column)) instanceof Walkway){
+								tempAdj.add(calcIndex(row + 1, column)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r + 1, c))).getDoorDirection() == RoomCell.DoorDirection.UP)
-										tempAdj.add(calcIndex(r + 1, c)); 
+							else if (((RoomCell) cells.get(calcIndex(row + 1, column))).getDoorDirection() == RoomCell.DoorDirection.UP)
+										tempAdj.add(calcIndex(row + 1, column)); 
 					}
 				}
 				
