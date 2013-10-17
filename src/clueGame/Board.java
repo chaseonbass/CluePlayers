@@ -121,20 +121,20 @@ public class Board {
 			if (tempLength != testLength) {
 				throw new BadConfigFormatException(layout, i);
 			} else {
-				for (String s : tempList.get(i)) {
-					if (s.length() > 2) {
-						throw new BadConfigFormatException(layout, s, i);
-					} else if (!rooms.containsKey(s.charAt(0))) {
-						throw new BadConfigFormatException(layout, s, i);
-					} else if (s.length() > 1 && 
-							(s.charAt(1) != 'U' && s.charAt(1) != 'D' && s.charAt(1) != 'R' && s.charAt(1) != 'L' && s.charAt(1) != 'N')) {
-						throw new BadConfigFormatException(layout, s, i);
+				for (String RoomInitial : tempList.get(i)) {
+					if (RoomInitial.length() > 2) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
+					} else if (!rooms.containsKey(RoomInitial.charAt(0))) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
+					} else if (RoomInitial.length() > 1 && 
+							(RoomInitial.charAt(1) != 'U' && RoomInitial.charAt(1) != 'D' && RoomInitial.charAt(1) != 'R' && RoomInitial.charAt(1) != 'L' && RoomInitial.charAt(1) != 'N')) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
 					} else {
-						if (s.equals("W"))
+						if (RoomInitial.equals("W"))
 							cells.add(new Walkway());
 						else {
 							// System.out.println(new RoomCell(s));
-							cells.add(new RoomCell(s));
+							cells.add(new RoomCell(RoomInitial));
 						}
 					}
 				}
@@ -221,8 +221,9 @@ public class Board {
 			if (getCells().get(i).isDoorway())
 				return true;
 		}
-		else if (getCells().get(i) instanceof Walkway)
+		else if (getCells().get(i) instanceof Walkway){
 				return true;
+		}
 		return false;
 	}
 	
