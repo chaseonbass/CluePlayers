@@ -49,37 +49,12 @@ public class Board {
 		// will probably just do loadConfigFiles()
 	}
 	
-	public void loadRoomConfig() {
-		// empty...
-		loadConfigFiles();
-	}
-	
-	public void loadBoardConfig() {
-		// empty
-	}
-
-	// --------------------------------------------------------------------
-	
-	public void loadConfigFiles() throws BadConfigFormatException {
-		
-		// Need to initialize our big objects
+	public void loadRoomConfig()throws BadConfigFormatException {
 		rooms = new HashMap<Character, String>();
 		cells = new ArrayList<BoardCell>();
-		
-		FileReader layoutReader = null;
-		FileReader legendReader = null;
-		Scanner layoutIn = null;
-		Scanner legendIn = null;
-		try {
-			layoutReader = new FileReader(layout);
-			legendReader = new FileReader(legend);
-			layoutIn = new Scanner(layoutReader);
-			legendIn = new Scanner(legendReader);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getLocalizedMessage());
-			e.printStackTrace();
-		}	
-		
+		try{
+		FileReader legendReader = new FileReader(legend);
+		Scanner legendIn = new Scanner(legendReader);
 		int lineNumber = 0;
 		
 		while (legendIn.hasNextLine()) {
@@ -103,7 +78,19 @@ public class Board {
 				rooms.put(tempInitial, tempRoomName);
 			}
 		}
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
 		
+	}
+	
+	public void loadBoardConfig() throws BadConfigFormatException {
+		try{
+		FileReader layoutReader = new FileReader(layout);
+		Scanner layoutIn = new Scanner(layoutReader);
+
 		// Store our cvs file into an ArrayList
 		ArrayList<String[]> tempList = new ArrayList<String[]>();
 		
@@ -144,7 +131,19 @@ public class Board {
 		numColumns = testLength;
 		numRows = tempList.size();
 		// System.out.println("Col: " + numColumns + ", Rows: " + numRows);
-		
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+		// empty
+	}
+
+	// --------------------------------------------------------------------
+	
+	public void loadConfigFiles() throws BadConfigFormatException {
+		loadRoomConfig();
+		loadBoardConfig();
 	}
 	
 	// --------------------------------------------------------------------
