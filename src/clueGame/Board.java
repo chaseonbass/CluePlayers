@@ -108,20 +108,20 @@ public class Board {
 			if (tempLength != testLength) {
 				throw new BadConfigFormatException(layout, i);
 			} else {
-				for (String s : tempList.get(i)) {
-					if (s.length() > 2) {
-						throw new BadConfigFormatException(layout, s, i);
-					} else if (!rooms.containsKey(s.charAt(0))) {
-						throw new BadConfigFormatException(layout, s, i);
-					} else if (s.length() > 1 && 
-							(s.charAt(1) != 'U' && s.charAt(1) != 'D' && s.charAt(1) != 'R' && s.charAt(1) != 'L' && s.charAt(1) != 'N')) {
-						throw new BadConfigFormatException(layout, s, i);
+				for (String RoomInitial : tempList.get(i)) {
+					if (RoomInitial.length() > 2) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
+					} else if (!rooms.containsKey(RoomInitial.charAt(0))) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
+					} else if (RoomInitial.length() > 1 && 
+							(RoomInitial.charAt(1) != 'U' && RoomInitial.charAt(1) != 'D' && RoomInitial.charAt(1) != 'R' && RoomInitial.charAt(1) != 'L' && RoomInitial.charAt(1) != 'N')) {
+						throw new BadConfigFormatException(layout, RoomInitial, i);
 					} else {
-						if (s.equals("W"))
+						if (RoomInitial.equals("W"))
 							cells.add(new Walkway());
 						else {
 							// System.out.println(new RoomCell(s));
-							cells.add(new RoomCell(s));
+							cells.add(new RoomCell(RoomInitial));
 						}
 					}
 				}
@@ -220,8 +220,9 @@ public class Board {
 			if (getCells().get(i).isDoorway())
 				return true;
 		}
-		else if (getCells().get(i) instanceof Walkway)
+		else if (getCells().get(i) instanceof Walkway){
 				return true;
+		}
 		return false;
 	}
 	
@@ -244,8 +245,8 @@ public class Board {
 		for (int i = 0; i < index.length; i++) {
 			Point temp = indexToCoord(index[i]);
 			// NOTE: I fixed this function to return (r,c) instead of (c,r)
-			int r = temp.x;
-			int c = temp.y;
+			int row = temp.x;
+			int column = temp.y;
 
 			LinkedList<Integer> tempAdj = new LinkedList<Integer>();
 			
@@ -256,37 +257,37 @@ public class Board {
 			//check direction
 			
 				if (isWalkable(i)) {
-					if (c > 0) { // left
-						if (isWalkable(calcIndex(r, c - 1)) && !bothSameRoomDoorways(i, calcIndex(r, c - 1)))
-							if (cells.get(calcIndex(r, c - 1)) instanceof Walkway){
-								tempAdj.add(calcIndex(r, c - 1)); 
+					if (column > 0) { // left
+						if (isWalkable(calcIndex(row, column - 1)) && !bothSameRoomDoorways(i, calcIndex(row, column - 1)))
+							if (cells.get(calcIndex(row, column - 1)) instanceof Walkway){
+								tempAdj.add(calcIndex(row, column - 1)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r, c - 1))).getDoorDirection() == RoomCell.DoorDirection.RIGHT)
-										tempAdj.add(calcIndex(r, c - 1)); 
+							else if (((RoomCell) cells.get(calcIndex(row, column - 1))).getDoorDirection() == RoomCell.DoorDirection.RIGHT)
+										tempAdj.add(calcIndex(row, column - 1)); 
 					}
-					if (c < numColumns - 1) { // right
-						if (isWalkable(calcIndex(r, c + 1)) && !bothSameRoomDoorways(i, calcIndex(r, c + 1)))
-							if (cells.get(calcIndex(r, c + 1)) instanceof Walkway){
-								tempAdj.add(calcIndex(r, c + 1)); 
+					if (column < numColumns - 1) { // right
+						if (isWalkable(calcIndex(row, column + 1)) && !bothSameRoomDoorways(i, calcIndex(row, column + 1)))
+							if (cells.get(calcIndex(row, column + 1)) instanceof Walkway){
+								tempAdj.add(calcIndex(row, column + 1)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r, c + 1))).getDoorDirection() == RoomCell.DoorDirection.LEFT)
-										tempAdj.add(calcIndex(r, c + 1)); 
+							else if (((RoomCell) cells.get(calcIndex(row, column + 1))).getDoorDirection() == RoomCell.DoorDirection.LEFT)
+										tempAdj.add(calcIndex(row, column + 1)); 
 					}
-					if (r > 0) { // up
-						if (isWalkable(calcIndex(r - 1, c)) && !bothSameRoomDoorways(i, calcIndex(r - 1, c)))
-							if (cells.get(calcIndex(r - 1, c)) instanceof Walkway){
-								tempAdj.add(calcIndex(r - 1, c)); 
+					if (row > 0) { // up
+						if (isWalkable(calcIndex(row - 1, column)) && !bothSameRoomDoorways(i, calcIndex(row - 1, column)))
+							if (cells.get(calcIndex(row - 1, column)) instanceof Walkway){
+								tempAdj.add(calcIndex(row - 1, column)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r - 1, c))).getDoorDirection() == RoomCell.DoorDirection.DOWN)
-										tempAdj.add(calcIndex(r - 1, c)); 
+							else if (((RoomCell) cells.get(calcIndex(row - 1, column))).getDoorDirection() == RoomCell.DoorDirection.DOWN)
+										tempAdj.add(calcIndex(row - 1, column)); 
 					}
-					if (r < numRows - 1) { // down
-						if (isWalkable(calcIndex(r + 1, c)) && !bothSameRoomDoorways(i, calcIndex(r + 1, c)))
-							if (cells.get(calcIndex(r + 1, c)) instanceof Walkway){
-								tempAdj.add(calcIndex(r + 1, c)); 
+					if (row < numRows - 1) { // down
+						if (isWalkable(calcIndex(row + 1, column)) && !bothSameRoomDoorways(i, calcIndex(row + 1, column)))
+							if (cells.get(calcIndex(row + 1, column)) instanceof Walkway){
+								tempAdj.add(calcIndex(row + 1, column)); 
 							}
-							else if (((RoomCell) cells.get(calcIndex(r + 1, c))).getDoorDirection() == RoomCell.DoorDirection.UP)
-										tempAdj.add(calcIndex(r + 1, c)); 
+							else if (((RoomCell) cells.get(calcIndex(row + 1, column))).getDoorDirection() == RoomCell.DoorDirection.UP)
+										tempAdj.add(calcIndex(row + 1, column)); 
 					}
 				}
 				

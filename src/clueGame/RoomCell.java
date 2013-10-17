@@ -74,8 +74,9 @@ public class RoomCell extends BoardCell {
 	}
 
 	public boolean isDoorway() {
-		if (doorDirection.equals(DoorDirection.NONE))
+		if (doorDirection.equals(DoorDirection.NONE)){
 			return false;
+		}
 		return true;
 	}
 	

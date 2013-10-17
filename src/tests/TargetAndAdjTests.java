@@ -24,7 +24,7 @@ public class TargetAndAdjTests {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		System.out.println("In @BeforeClass");
+		//System.out.println("In @BeforeClass");
 		board = new Board("boardLayout.csv", "legend");
 		board.loadConfigFiles();
 		
@@ -49,7 +49,8 @@ public class TargetAndAdjTests {
 		@Test
 		public void testEdgeAdj() {
 			LinkedList<Integer> testList0 = board.getAdjList(board.calcIndex(21,7));
-			LinkedList<Integer> testList1 = board.getAdjList(board.calcIndex(9,19)); // Edge of a room ought to return an empty adj list
+			LinkedList<Integer> testList1 = board.getAdjList(board.calcIndex(9,19));
+			// Edge of a room ought to return an empty adj list
 			LinkedList<Integer> testList2 = board.getAdjList(board.calcIndex(8,22));
 			LinkedList<Integer> testList3 = board.getAdjList(board.calcIndex(11,0));
 			LinkedList<Integer> testList4 = board.getAdjList(board.calcIndex(0,17));
@@ -114,8 +115,7 @@ public class TargetAndAdjTests {
 			assertEquals(1, testList0.size());
 			
 			assertTrue(testList1.contains(board.calcIndex(3, 19)));
-			//PLEASE RELOOK AT THIS, IT WAS (3, 20) BEFORE, but that was two spots away from door
-			//I think we need just one spot away, but i might be wrong (as usual)
+			
 			assertEquals(1, testList1.size());
 		}
 		
@@ -200,8 +200,8 @@ public class TargetAndAdjTests {
 		public void testTargetsFromARoom() {
 			board.startTargets(20, 9, 3);
 			Set<BoardCell> targets0= board.getTargets();
-			System.out.println("Targets for (20,9): ");
-			System.out.println(targets0);
+			//System.out.println("Targets for (20,9): ");
+			//System.out.println(targets0);
 			assertEquals(6, targets0.size());
 			assertTrue(targets0.contains(board.getCellAt(21, 7)));
 			assertTrue(targets0.contains(board.getCellAt(20, 6)));
