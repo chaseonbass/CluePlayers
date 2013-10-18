@@ -41,7 +41,7 @@ public class Board {
 		legend = "ClueLegend.txt";
 	}
 	
-	public Board(String layout, String legend) {
+	public Board(String layout, String legend) {  //
 		super();
 		this.layout = layout;
 		this.legend = legend;
@@ -60,7 +60,6 @@ public class Board {
 		while (legendIn.hasNextLine()) {
 			lineNumber = lineNumber + 1;
 			String legendLine = legendIn.nextLine();
-			
 			if (!legendLine.contains(","))
 				throw new BadConfigFormatException(legend, ",", lineNumber);
 			if (legendLine.indexOf(',')!=legendLine.lastIndexOf(','))
@@ -120,7 +119,6 @@ public class Board {
 						if (RoomInitial.equals("W"))
 							cells.add(new Walkway());
 						else {
-							// System.out.println(new RoomCell(s));
 							cells.add(new RoomCell(RoomInitial));
 						}
 					}
@@ -130,13 +128,11 @@ public class Board {
 		
 		numColumns = testLength;
 		numRows = tempList.size();
-		// System.out.println("Col: " + numColumns + ", Rows: " + numRows);
 		}
 		catch(FileNotFoundException e){
 			System.out.println(e.getLocalizedMessage());
 			e.printStackTrace();
 		}
-		// empty
 	}
 
 	// --------------------------------------------------------------------
@@ -210,7 +206,6 @@ public class Board {
 			index[i] = i;
 			visited.put(i, false);
 		}
-		
 		//calcAdjacencies();
 	}
 	
@@ -239,7 +234,6 @@ public class Board {
 	}
 	
 	public void calcAdjacencies(){
-		
 		initBoard(numRows,numColumns);
 		
 		for (int i = 0; i < index.length; i++) {
@@ -247,7 +241,6 @@ public class Board {
 			// NOTE: I fixed this function to return (r,c) instead of (c,r)
 			int row = temp.x;
 			int column = temp.y;
-
 			LinkedList<Integer> tempAdj = new LinkedList<Integer>();
 			
 			// The if statements below still need to check for walls and doors
@@ -305,9 +298,6 @@ public class Board {
 	
 	public void calcTargets(int index, int steps){
 		// called inside startTargets()
-		
-		// need ifs that check for walls and such
-		
 		LinkedList<Integer> temp =  getAdjList(index);
 
 		for (int adj : temp) {
@@ -317,7 +307,7 @@ public class Board {
 				visited.put(adj, true);
 				if (steps == 1 || cells.get(adj).isDoorway()) {
 					if (adj != baseOfPath)
-						targets.add(cells.get(adj)); // We need to be grabbing BoardCell objects
+						targets.add(cells.get(adj)); 
 				} else {
 					calcTargets(adj,steps-1);
 					visited.put(adj, false);
@@ -369,11 +359,4 @@ public class Board {
 		return rooms;
 	}
 	// -----------------------------------------------------------------
-
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
