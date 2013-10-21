@@ -4,14 +4,14 @@ public class ComputerPlayer extends Player{
 	
 	private char lastRoomVisited;
 	
-	public pickLocation(targets:Set<BoardCell>){
+	public void pickLocation(Set<BoardCell> targets){
 		
 	}
-	public suggestion(){
+	public void CreateSuggestion(){
 		
 	}
 	
-	public updateSeen(seen:Card){
+	public void updateSeen(Card seen){
 		
 	}
 
