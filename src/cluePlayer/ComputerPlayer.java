@@ -1,17 +1,21 @@
 package cluePlayer;
 
+import java.util.Set;
+
+import clueGame.BoardCell;
+
 public class ComputerPlayer extends Player{
 	
 	private char lastRoomVisited;
 	
-	public pickLocation(targets:Set<BoardCell>){
+	public void pickLocation(Set<BoardCell> targets){
 		
 	}
-	public suggestion(){
+	public void createSuggestion(){
 		
 	}
 	
-	public updateSeen(seen:Card){
+	public void updateSeen(Card seen){
 		
 	}
 

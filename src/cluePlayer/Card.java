@@ -31,7 +31,7 @@ public class Card {
 		private String name;
 		private CardType cardtype;
 		
-		Card(String name, CardType cardtype) {
+		public Card(String name, CardType cardtype) {
 			super();
 			this.name = name;
 			this.cardtype = cardtype;
