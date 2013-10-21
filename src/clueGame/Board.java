@@ -41,7 +41,7 @@ public class Board {
 		legend = "ClueLegend.txt";
 	}
 	
-	public Board(String layout, String legend) {
+	public Board(String layout, String legend) {  //
 		super();
 		this.layout = layout;
 		this.legend = legend;
@@ -49,43 +49,17 @@ public class Board {
 		// will probably just do loadConfigFiles()
 	}
 	
-	public void loadRoomConfig() {
-		// empty...
-		loadConfigFiles();
-	}
-	
-	public void loadBoardConfig() {
-		// empty
-	}
-
-	// --------------------------------------------------------------------
-	
-	public void loadConfigFiles() throws BadConfigFormatException {
-		
-		// Need to initialize our big objects
+	public void loadRoomConfig()throws BadConfigFormatException {
 		rooms = new HashMap<Character, String>();
 		cells = new ArrayList<BoardCell>();
-		
-		FileReader layoutReader = null;
-		FileReader legendReader = null;
-		Scanner layoutIn = null;
-		Scanner legendIn = null;
-		try {
-			layoutReader = new FileReader(layout);
-			legendReader = new FileReader(legend);
-			layoutIn = new Scanner(layoutReader);
-			legendIn = new Scanner(legendReader);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getLocalizedMessage());
-			e.printStackTrace();
-		}	
-		
+		try{
+		FileReader legendReader = new FileReader(legend);
+		Scanner legendIn = new Scanner(legendReader);
 		int lineNumber = 0;
 		
 		while (legendIn.hasNextLine()) {
 			lineNumber = lineNumber + 1;
 			String legendLine = legendIn.nextLine();
-			
 			if (!legendLine.contains(","))
 				throw new BadConfigFormatException(legend, ",", lineNumber);
 			if (legendLine.indexOf(',')!=legendLine.lastIndexOf(','))
@@ -103,7 +77,19 @@ public class Board {
 				rooms.put(tempInitial, tempRoomName);
 			}
 		}
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
 		
+	}
+	
+	public void loadBoardConfig() throws BadConfigFormatException {
+		try{
+		FileReader layoutReader = new FileReader(layout);
+		Scanner layoutIn = new Scanner(layoutReader);
+
 		// Store our cvs file into an ArrayList
 		ArrayList<String[]> tempList = new ArrayList<String[]>();
 		
@@ -133,7 +119,6 @@ public class Board {
 						if (RoomInitial.equals("W"))
 							cells.add(new Walkway());
 						else {
-							// System.out.println(new RoomCell(s));
 							cells.add(new RoomCell(RoomInitial));
 						}
 					}
@@ -143,8 +128,18 @@ public class Board {
 		
 		numColumns = testLength;
 		numRows = tempList.size();
-		// System.out.println("Col: " + numColumns + ", Rows: " + numRows);
-		
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+
+	// --------------------------------------------------------------------
+	
+	public void loadConfigFiles() throws BadConfigFormatException {
+		loadRoomConfig();
+		loadBoardConfig();
 	}
 	
 	// --------------------------------------------------------------------
@@ -211,7 +206,6 @@ public class Board {
 			index[i] = i;
 			visited.put(i, false);
 		}
-		
 		//calcAdjacencies();
 	}
 	
@@ -240,7 +234,6 @@ public class Board {
 	}
 	
 	public void calcAdjacencies(){
-		
 		initBoard(numRows,numColumns);
 		
 		for (int i = 0; i < index.length; i++) {
@@ -248,7 +241,6 @@ public class Board {
 			// NOTE: I fixed this function to return (r,c) instead of (c,r)
 			int row = temp.x;
 			int column = temp.y;
-
 			LinkedList<Integer> tempAdj = new LinkedList<Integer>();
 			
 			// The if statements below still need to check for walls and doors
@@ -306,9 +298,6 @@ public class Board {
 	
 	public void calcTargets(int index, int steps){
 		// called inside startTargets()
-		
-		// need ifs that check for walls and such
-		
 		LinkedList<Integer> temp =  getAdjList(index);
 
 		for (int adj : temp) {
@@ -318,7 +307,7 @@ public class Board {
 				visited.put(adj, true);
 				if (steps == 1 || cells.get(adj).isDoorway()) {
 					if (adj != baseOfPath)
-						targets.add(cells.get(adj)); // We need to be grabbing BoardCell objects
+						targets.add(cells.get(adj)); 
 				} else {
 					calcTargets(adj,steps-1);
 					visited.put(adj, false);
@@ -370,11 +359,4 @@ public class Board {
 		return rooms;
 	}
 	// -----------------------------------------------------------------
-
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
