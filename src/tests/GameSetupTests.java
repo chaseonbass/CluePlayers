@@ -2,9 +2,12 @@ package tests;
 
 import static org.junit.Assert.*;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.*;
 import cluePlayer.*;
 
@@ -26,13 +29,13 @@ public class GameSetupTests {
 		Assert.assertTrue(cg.players.get(0).getName() == "Batman");
 		Assert.assertTrue(cg.players.get(0).getColor().equalsIgnoreCase("Black")); //Batman color
 		Assert.assertTrue(cg.players.get(1).getColor().equalsIgnoreCase("Green")); //Joker color
-		Assert.assertTrue(cg.players.get(4).getColor().equalsIgnoreCase("White")); //penguin color
+		Assert.assertTrue(cg.players.get(5).getColor().equalsIgnoreCase("White")); //penguin color
 		Assert.assertTrue(cg.players.get(0).getRow() == 6);
-		Assert.assertTrue(cg.players.get(0).getRow() == 15);
-		Assert.assertTrue(cg.players.get(0).getRow() == 8);
+		Assert.assertTrue(cg.players.get(1).getRow() == 15);
+		Assert.assertTrue(cg.players.get(5).getRow() == 8);
 		Assert.assertTrue(cg.players.get(0).getColumn() == 3);
-		Assert.assertTrue(cg.players.get(0).getColumn() == 1);
-		Assert.assertTrue(cg.players.get(0).getColumn() == 0);
+		Assert.assertTrue(cg.players.get(1).getColumn() == 1);
+		Assert.assertTrue(cg.players.get(5).getColumn() == 0);
 	}
 	@Test
 	public void testLoadCards(){
