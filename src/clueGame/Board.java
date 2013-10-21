@@ -93,7 +93,7 @@ public class Board {
 			
 			String[] splitLegendLine = legendLine.split(",");
 			// Splits the line into two strings, the first being the initial, 
-			//   the second being the name of the room
+			//   the second being the name of the room   
 			// Check if we actually have a character
 			if (splitLegendLine[0].length() > 1) {
 				throw new BadConfigFormatException(legend, splitLegendLine[0], lineNumber);
