@@ -30,7 +30,7 @@ public class RoomCell extends BoardCell {
 	private char roomType;
 	
 	public RoomCell() {
-		// Default constructor for dealing with returing Walkways as RoomCells
+		// Default constructor for dealing with returning Walkways as RoomCells
 		doorDirection = DoorDirection.NONE;
 		roomType = 'W';
 	}

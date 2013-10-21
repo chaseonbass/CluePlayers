@@ -8,15 +8,18 @@ import org.junit.*;
 import cluePlayer.*;
 
 public class GameSetupTests {
+	ClueGame cg;
 	@BeforeClass
 	public void configGame(){
-		ClueGame cg = new ClueGame();
+		cg = new ClueGame();
+		cg.loadConfigFiles();
 	}
 	
 	
 	@Test
 	public void testLoadPlayers(){
-		
+		Assert.assertTrue(cg.players.contains("Batman"));
+		Assert.assertTrue(cg.players.contains("Joker"));
 		
 	}
 

@@ -1,6 +1,9 @@
 package cluePlayer;
 
+import java.util.ArrayList;
+
 public class ClueGame {
+	public ArrayList<Player> players = new ArrayList<Player>();
 	public void deal(){
 		
 	}
