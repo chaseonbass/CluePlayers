@@ -81,6 +81,17 @@ public class GameSetupTests {
 		}
 		Assert.assertTrue(cg.cards.size() == cCards.size());
 	}
+	public void testAccusations(){
+		cg.setSolution("Batman", "Kitten", "Library");
+		Solution falseOne = new Solution ("Joker", "Kitten", "Library");
+		Solution falseTwo = new Solution ("Batman", "Batarang", "Library");
+		Solution falseThree = new Solution ("Batman", "Kitten", "Conservatory");
+		Solution correctoMundo = new Solution ("Batman", "Kitten", "Library");
+		Assert.assertFalse(cg.checkAccusation(falseOne));
+		Assert.assertFalse(cg.checkAccusation(falseTwo));
+		Assert.assertFalse(cg.checkAccusation(falseThree));
+		Assert.assertTrue(cg.checkAccusation(correctoMundo));
+	}
 
 
 }
