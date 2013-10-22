@@ -7,13 +7,16 @@ import java.util.Scanner;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.RoomCell;
 import cluePlayer.Card.CardType;
 
 public class ClueGame {
 	public ArrayList<Player> players = new ArrayList<Player>();
 	public ArrayList <Card> cards = new ArrayList<Card>();
 	private Solution solution;
+	
 	public void deal(){
+		
 		
 	}
 	public void loadRoomCards(String legend){
@@ -48,10 +51,49 @@ public class ClueGame {
 			e.printStackTrace();
 		}
 	}
-	public void loadConfigFiles(String legend, String weaponFile, String peopleFile){
+	public void loadConfigFiles(String legend, String weaponFile, String peopleFile, String cardTypes){
 		loadRoomCards(legend);
 		loadWeaponCards(weaponFile);
 		loadPeopleCards(peopleFile);
+		loadCardTypes(cardTypes);
+	}
+	
+	
+	//Please look this over if I did it right
+	public void loadCardTypes(String cardTypes) {
+			try{
+			FileReader legendReader = new FileReader(cardTypes);
+			Scanner legendIn = new Scanner(legendReader);
+			int lineNumber = 0;
+			
+			while (legendIn.hasNextLine()) {
+				lineNumber = lineNumber + 1;
+				String legendLine = legendIn.nextLine();
+				/*if (!legendLine.contains(","))
+					throw new BadConfigFormatException(cardTypes, ",", lineNumber);
+				if (legendLine.indexOf(',')!=legendLine.lastIndexOf(','))
+					throw new BadConfigFormatException(cardTypes, "MULTIPLE ','", lineNumber);
+				*/
+				String[] splitLegendLine = legendLine.split(",");
+				// Splits the line into two strings, the first being the initial, 
+				//   the second being the name of the room   
+				// Check if we actually have a character
+				if (splitLegendLine[1].equals("ROOM")){
+					cards.add(new Card(legendLine, Card.CardType.ROOM));
+				}
+				else if (splitLegendLine[1].equals("PLAYER")){
+					cards.add(new Card(legendLine, Card.CardType.PERSON));
+				}
+				else if (splitLegendLine[1].equals("WEAPON")){
+					cards.add(new Card(legendLine, Card.CardType.WEAPON));
+				}
+			}
+			}
+			catch(FileNotFoundException e){
+				System.out.println(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+		
 	}
 	public void loadWeaponCards(String weaponFile) {
 		try{
@@ -98,14 +140,22 @@ public class ClueGame {
 	public void handleSuggestion(String person, String room, String weapon, Player accusingPerson){
 		
 	}
+	
+	
 	public boolean checkAccusation(Solution solution){
+		if ((solution.person).equals(solution.getPerson()) && (solution.weapon).equals(solution.getWeapon()) && (solution.room).equals(solution.getRoom())){
+			return true;
+		}
+		else{
 		return false;
+		}
 	}
 	public Solution getSolution(){
 		return solution;
 	}
 	public void setSolution(String person, String weapon, String room){
 		solution = new Solution(person, weapon, room);
+		//this.solution= solution;
 	}
 	
 	
