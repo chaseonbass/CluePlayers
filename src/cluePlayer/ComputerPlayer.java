@@ -6,18 +6,21 @@ import clueGame.BoardCell;
 
 public class ComputerPlayer extends Player{
 	
+	public ComputerPlayer(String name, String color, int row, int column) {
+		super(name, color, row, column);
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private char lastRoomVisited;
 	
 	public void pickLocation(Set<BoardCell> targets){
 		
 	}
-<<<<<<< HEAD
 	public void createSuggestion(){
-=======
-	public void CreateSuggestion(){
->>>>>>> 33e62a0c22f4cb23f4d47e1d22e2d8ef1aaa1277
 		
 	}
+
 	
 	public void updateSeen(Card seen){
 		

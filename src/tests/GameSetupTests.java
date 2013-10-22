@@ -10,13 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.*;
 import cluePlayer.*;
+import clueGame.*;
 
 public class GameSetupTests {
-	ClueGame cg;
+	public  static ClueGame cg;
 	@BeforeClass
-	public void configGame(){
+	public static void configGame(){
 		cg = new ClueGame();
-		cg.loadConfigFiles();
+		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 	}
 	
 	
