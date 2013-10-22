@@ -23,11 +23,15 @@ public class GameSetupTests {
 	
 	@Test
 	public void testLoadPlayers(){
-		Assert.assertTrue(cg.players.size() == 5);
-		Assert.assertTrue(cg.players.contains("Batman"));
-		Assert.assertTrue(cg.players.contains("Joker"));
-		Assert.assertTrue(cg.players.contains("Penguin"));
-		Assert.assertTrue(cg.players.get(0).getName() == "Batman");
+		int expected = 6;
+		int actual = cg.players.size();
+		Assert.assertEquals(expected, actual);
+//		Assert.assertTrue(cg.players.contains(new Player("Batman", "Black", 6, 3)));
+//		Assert.assertTrue(cg.players.contains("Joker"));
+//		Assert.assertTrue(cg.players.contains("Penguin"));
+		String expecto = "Batman";
+		String actualo = cg.players.get(0).getName();
+		Assert.assertEquals(expecto, actualo);
 		Assert.assertTrue(cg.players.get(0).getColor().equalsIgnoreCase("Black")); //Batman color
 		Assert.assertTrue(cg.players.get(1).getColor().equalsIgnoreCase("Green")); //Joker color
 		Assert.assertTrue(cg.players.get(5).getColor().equalsIgnoreCase("White")); //penguin color

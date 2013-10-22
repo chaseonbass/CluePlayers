@@ -77,9 +77,11 @@ public class ClueGame {
 				name = line[0];
 				if(lineNumber == 0){
 					Player p = new HumanPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+					players.add(p);
 				}
 				else{
 					Player p = new ComputerPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+					players.add(p);
 				}
 				cards.add(new Card(line[0], CardType.PERSON));
 				lineNumber ++;
