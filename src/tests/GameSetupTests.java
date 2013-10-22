@@ -17,7 +17,7 @@ public class GameSetupTests {
 	@BeforeClass
 	public static void configGame(){
 		cg = new ClueGame();
-		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt", "CardTypes.txt");
+		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 	}
 	
 	
@@ -56,14 +56,19 @@ public class GameSetupTests {
 			else if(cg.cards.get(i).getCartype() == Card.CardType.ROOM)
 				numRooms ++;
 		}
+		//Test that there are 6 weapons, 6 people, and 9 rooms
 		Assert.assertTrue(numWeapons == 6);
 		Assert.assertTrue(numRooms == 9);
 		Assert.assertTrue(numPeople == 6);
+		
+		//test what type the card is.Batman is a person, Conservatory is a room and kitten is a weapon
 		Assert.assertTrue(cg.cards.contains(new Card("Batman", Card.CardType.PERSON)));
 		Assert.assertTrue(cg.cards.contains(new Card("Conservatory", Card.CardType.ROOM)));
 		Assert.assertTrue(cg.cards.contains(new Card("Kitten", Card.CardType.WEAPON)));
 	}
 	@Test
+		//test that the cards are dealt correctly and it is equally distributed.
+		//noone can have more than 1 card more or more than 1 card less than other players.
 	public void testDealtCards(){
 		cg.deal();
 		int remaining = cg.cards.size();
@@ -91,17 +96,27 @@ public class GameSetupTests {
 	}
 	
 	@Test
-	public void testAccusations(){
-		cg.setSolution("Batman", "Kitten", "Library");
-		Solution correctoMundo = new Solution ("Batman", "Kitten", "Library");
-		Solution falseOne = new Solution ("Joker", "Kitten", "Library");
-		Solution falseTwo = new Solution ("Batman", "Batarang", "Library");
-		Solution falseThree = new Solution ("Batman", "Kitten", "Conservatory");
 	
-		Assert.assertFalse(cg.checkAccusation(falseOne));
-		Assert.assertFalse(cg.checkAccusation(falseTwo));
-		Assert.assertFalse(cg.checkAccusation(falseThree));
-		Assert.assertTrue(cg.checkAccusation(correctoMundo));
+	//test to make sure the right accusations is made.
+	public void testAccusations(){
+		//this set the solution
+		Solution correctoMundo = new Solution ("Batman", "Kitten", "Library");
+		cg.setSolution(correctoMundo);
+		
+		// this is an example of a correct solution which means all three fields has to match the solution
+		Assert.assertTrue(cg.checkAccusation("Batman", "Kitten", "Library"));
+		
+		// these are example of the ones that not suppose to be the solution
+	
+		//wrong person
+		Assert.assertFalse(cg.checkAccusation("Joker", "Kitten", "Library"));
+		//wrong weapon
+		Assert.assertFalse(cg.checkAccusation("Batman", "Batarang", "Library"));
+		//wrong weapon, wrong room
+		Assert.assertFalse(cg.checkAccusation("Batman", "Batarang", "Conservatory"));
+		
+		
+		
 
 	}
 

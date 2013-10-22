@@ -18,6 +18,7 @@ public class ClueGame {
 	public void deal(){
 		
 		
+		
 	}
 	public void loadRoomCards(String legend){
 		try{
@@ -51,50 +52,14 @@ public class ClueGame {
 			e.printStackTrace();
 		}
 	}
-	public void loadConfigFiles(String legend, String weaponFile, String peopleFile, String cardTypes){
+	public void loadConfigFiles(String legend, String weaponFile, String peopleFile){
 		loadRoomCards(legend);
 		loadWeaponCards(weaponFile);
 		loadPeopleCards(peopleFile);
-		loadCardTypes(cardTypes);
 	}
 	
 	
-	//Please look this over if I did it right
-	public void loadCardTypes(String cardTypes) {
-			try{
-			FileReader legendReader = new FileReader(cardTypes);
-			Scanner legendIn = new Scanner(legendReader);
-			int lineNumber = 0;
-			
-			while (legendIn.hasNextLine()) {
-				lineNumber = lineNumber + 1;
-				String legendLine = legendIn.nextLine();
-				/*if (!legendLine.contains(","))
-					throw new BadConfigFormatException(cardTypes, ",", lineNumber);
-				if (legendLine.indexOf(',')!=legendLine.lastIndexOf(','))
-					throw new BadConfigFormatException(cardTypes, "MULTIPLE ','", lineNumber);
-				*/
-				String[] splitLegendLine = legendLine.split(",");
-				// Splits the line into two strings, the first being the initial, 
-				//   the second being the name of the room   
-				// Check if we actually have a character
-				if (splitLegendLine[1].equals("ROOM")){
-					cards.add(new Card(legendLine, Card.CardType.ROOM));
-				}
-				else if (splitLegendLine[1].equals("PLAYER")){
-					cards.add(new Card(legendLine, Card.CardType.PERSON));
-				}
-				else if (splitLegendLine[1].equals("WEAPON")){
-					cards.add(new Card(legendLine, Card.CardType.WEAPON));
-				}
-			}
-			}
-			catch(FileNotFoundException e){
-				System.out.println(e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-		
-	}
+	
 	public void loadWeaponCards(String weaponFile) {
 		try{
 			FileReader legendReader = new FileReader(weaponFile);
@@ -142,8 +107,9 @@ public class ClueGame {
 	}
 	
 	
-	public boolean checkAccusation(Solution solution){
-		if ((solution.person).equals(solution.getPerson()) && (solution.weapon).equals(solution.getWeapon()) && (solution.room).equals(solution.getRoom())){
+	public boolean checkAccusation(String person, String weapon, String room){
+		if (person.equals(solution.getPerson()) && weapon.equals(solution.getWeapon()) && room.equals(solution.getRoom())){
+		//if (solution.person.equals(solution.getPerson()) && solution.weapon.equals(solution.getWeapon()) && solution.room.equals(solution.getRoom())){
 			return true;
 		}
 		else{
@@ -153,9 +119,9 @@ public class ClueGame {
 	public Solution getSolution(){
 		return solution;
 	}
-	public void setSolution(String person, String weapon, String room){
-		solution = new Solution(person, weapon, room);
-		//this.solution= solution;
+	public void setSolution(Solution solution){
+		//solution = new Solution(person, weapon, room);
+		this.solution= solution;
 	}
 	
 	
