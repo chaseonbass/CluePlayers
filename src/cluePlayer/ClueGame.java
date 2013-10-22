@@ -3,6 +3,8 @@ package cluePlayer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import clueGame.BadConfigFormatException;
@@ -10,7 +12,7 @@ import clueGame.Board;
 import cluePlayer.Card.CardType;
 
 public class ClueGame {
-	public ArrayList<Player> players = new ArrayList<Player>();
+	public Map<String, Player> players;
 	public ArrayList <Card> cards = new ArrayList<Card>();
 	private Solution solution;
 	public void deal(){
@@ -39,7 +41,8 @@ public class ClueGame {
 			} else {
 				char tempInitial = splitLegendLine[0].toCharArray()[0];
 				String tempRoomName = splitLegendLine[1].trim();
-				cards.add(new Card(tempRoomName, CardType.ROOM));
+				if(!tempRoomName.equals("Closet") && !tempRoomName.equals("Walkway"))
+					cards.add(new Card(tempRoomName, CardType.ROOM));
 			}
 		}
 		}
@@ -66,6 +69,7 @@ public class ClueGame {
 		}
 	}
 	public void loadPeopleCards(String peopleFile){
+		players = new HashMap<String, Player>();
 		try{
 			String name;
 			String[] line;
@@ -77,13 +81,14 @@ public class ClueGame {
 				name = line[0];
 				if(lineNumber == 0){
 					Player p = new HumanPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
-					players.add(p);
+					players.put(line[0], p);
 				}
 				else{
 					Player p = new ComputerPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
-					players.add(p);
+					players.put(line[0],p);
 				}
 				cards.add(new Card(line[0], CardType.PERSON));
+				System.out.println(line[0]);
 				lineNumber ++;
 			}
 		}
