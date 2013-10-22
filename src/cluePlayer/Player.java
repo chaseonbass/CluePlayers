@@ -2,7 +2,7 @@ package cluePlayer;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Comparable {
 	private ArrayList <Card> cards = new ArrayList<Card>();
 	private String name, color;
 	private int index, row, column;
@@ -36,5 +36,18 @@ public class Player {
 	public ArrayList<Card> getCards(){
 		return cards;
 	}
+	public int compareTo(Object o) {
+		if(this.name.equalsIgnoreCase(((Player) o).getName())){
+			if(this.color.equalsIgnoreCase(((Player) o).getColor())){
+				if(this.index == ((Player) o).getIndex()){
+					return 1;
+				}
+			}
+		}
+		return 0;
+	}
+
+
+	
 	
 }

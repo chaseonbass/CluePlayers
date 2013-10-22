@@ -26,25 +26,30 @@ public class GameSetupTests {
 		int expected = 6;
 		int actual = cg.players.size();
 		Assert.assertEquals(expected, actual);
-//		Assert.assertTrue(cg.players.contains(new Player("Batman", "Black", 6, 3)));
-//		Assert.assertTrue(cg.players.contains("Joker"));
-//		Assert.assertTrue(cg.players.contains("Penguin"));
+		Player b = new Player("Batman", "Black", 6, 3);
+		Player c = new Player("Joker", "Green", 15, 1);
+		Player d = new Player("Penguin", "White", 8, 0);
+		Assert.assertTrue(cg.players.containsKey("Batman"));
+		Assert.assertTrue(cg.players.containsKey("Joker"));
+		Assert.assertTrue(cg.players.containsKey("Penguin"));
 		String expecto = "Batman";
-		String actualo = cg.players.get(0).getName();
+		String actualo = cg.players.get("Batman").getName();
 		Assert.assertEquals(expecto, actualo);
-		Assert.assertTrue(cg.players.get(0).getColor().equalsIgnoreCase("Black")); //Batman color
-		Assert.assertTrue(cg.players.get(1).getColor().equalsIgnoreCase("Green")); //Joker color
-		Assert.assertTrue(cg.players.get(5).getColor().equalsIgnoreCase("White")); //penguin color
-		Assert.assertTrue(cg.players.get(0).getRow() == 6);
-		Assert.assertTrue(cg.players.get(1).getRow() == 15);
-		Assert.assertTrue(cg.players.get(5).getRow() == 8);
-		Assert.assertTrue(cg.players.get(0).getColumn() == 3);
-		Assert.assertTrue(cg.players.get(1).getColumn() == 1);
-		Assert.assertTrue(cg.players.get(5).getColumn() == 0);
+		Assert.assertTrue(cg.players.get("Batman").getColor().equalsIgnoreCase("Black")); //Batman color
+		Assert.assertTrue(cg.players.get("Joker").getColor().equalsIgnoreCase("Green")); //Joker color
+		Assert.assertTrue(cg.players.get("Penguin").getColor().equalsIgnoreCase("White")); //penguin color
+		Assert.assertTrue(cg.players.get("Batman").getRow() == 6);
+		Assert.assertTrue(cg.players.get("Joker").getRow() == 15);
+		Assert.assertTrue(cg.players.get("Penguin").getRow() == 8);
+		Assert.assertTrue(cg.players.get("Batman").getColumn() == 3);
+		Assert.assertTrue(cg.players.get("Joker").getColumn() == 1);
+		Assert.assertTrue(cg.players.get("Penguin").getColumn() == 0);
 	}
 	@Test
 	public void testLoadCards(){
-		Assert.assertTrue(cg.cards.size() == 21);
+		int expected = 21;
+		int actual = cg.cards.size();
+		Assert.assertEquals(expected, actual);
 		int numWeapons = 0;
 		int numRooms = 0;
 		int numPeople = 0;
