@@ -1,6 +1,6 @@
 package cluePlayer;
 
-public class Card {
+public class Card{
 	public enum CardType {
 		ROOM ("Room"),
 		WEAPON ("Weapon"),
@@ -26,8 +26,6 @@ public class Card {
 		return result;
 			
 	}
-	
-	
 		private String name;
 		private CardType cardtype;
 		
@@ -55,9 +53,5 @@ public class Card {
 
 		public void setCartype(CardType cartype) {
 			this.cardtype = cardtype;
-		}
-	
-
-	
-	
+		}	
 }

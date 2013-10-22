@@ -3,11 +3,12 @@ package tests;
 import static org.junit.Assert.*;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import org.junit.*;
 import cluePlayer.*;
 import clueGame.*;
@@ -53,34 +54,43 @@ public class GameSetupTests {
 		int numWeapons = 0;
 		int numRooms = 0;
 		int numPeople = 0;
-		for(int i = 0; i < cg.cards.size(); i++){
-			if(cg.cards.get(i).getCartype() == Card.CardType.WEAPON)
+		for(String key : cg.cards.keySet()){
+			if(cg.cards.get(key).getCartype() == Card.CardType.WEAPON)
 				numWeapons ++;
-			else if(cg.cards.get(i).getCartype() == Card.CardType.PERSON)
+			else if(cg.cards.get(key).getCartype() == Card.CardType.PERSON)
 				numPeople ++;
-			else if(cg.cards.get(i).getCartype() == Card.CardType.ROOM)
+			else if(cg.cards.get(key).getCartype() == Card.CardType.ROOM)
 				numRooms ++;
 		}
 		Assert.assertTrue(numWeapons == 6);
 		Assert.assertTrue(numRooms == 9);
 		Assert.assertTrue(numPeople == 6);
-		Assert.assertTrue(cg.cards.contains(new Card("Batman", Card.CardType.PERSON)));
-		Assert.assertTrue(cg.cards.contains(new Card("Conservatory", Card.CardType.ROOM)));
-		Assert.assertTrue(cg.cards.contains(new Card("Kitten", Card.CardType.WEAPON)));
+		boolean expecto = true;
+		Card b = new Card("Batman", Card.CardType.PERSON);
+		boolean actualo = cg.cards.containsKey("Batman");
+		Assert.assertTrue(cg.cards.containsKey("Batman"));
+		Assert.assertTrue(cg.cards.containsKey("Conservatory"));
+		Assert.assertTrue(cg.cards.containsKey("Kitten"));
 	}
 	@Test
 	public void testDealtCards(){
 		cg.deal();
+		ArrayList<Player> aPlayers = new ArrayList<Player>();
 		int remaining = cg.cards.size();
-		for(int i = 0; i < cg.players.size(); i ++){
-			if(i < cg.players.size() -1){
-				Assert.assertTrue(cg.players.get(i).getCards().size() == cg.players.get(i+1).getCards().size() || 
-						cg.players.get(i).getCards().size() == cg.players.get(i+1).getCards().size() + 1	||
-						cg.players.get(i).getCards().size() == cg.players.get(i+1).getCards().size() -1);
-			}
-			remaining = remaining - cg.players.get(i).getCards().size();
+		for(String key : cg.players.keySet()){
+			aPlayers.add(cg.players.get(key));
 		}
-		Assert.assertTrue(remaining == 0);
+		for(int i = 0; i < aPlayers.size(); i++){
+			if(i < aPlayers.size() -1){
+				Assert.assertTrue(aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() || 
+						aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() + 1	||
+								aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() -1);
+			}
+			remaining = remaining - aPlayers.get(i).getCards().size();
+		}
+		int expected = 0;
+		int actual = remaining;
+		Assert.assertEquals(expected, actual);
 	}
 	
 	@Test

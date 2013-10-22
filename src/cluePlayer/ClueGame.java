@@ -14,7 +14,7 @@ import cluePlayer.Card.CardType;
 
 public class ClueGame {
 	public Map<String, Player> players;
-	public ArrayList <Card> cards = new ArrayList<Card>();
+	public Map <String, Card> cards;
 	private Solution solution;
 	
 	public void deal(){
@@ -22,6 +22,7 @@ public class ClueGame {
 		
 	}
 	public void loadRoomCards(String legend){
+		cards = new HashMap <String, Card>();
 		try{
 		FileReader legendReader = new FileReader(legend);
 		Scanner legendIn = new Scanner(legendReader);
@@ -44,8 +45,10 @@ public class ClueGame {
 			} else {
 				char tempInitial = splitLegendLine[0].toCharArray()[0];
 				String tempRoomName = splitLegendLine[1].trim();
-				if(!tempRoomName.equals("Closet") && !tempRoomName.equals("Walkway"))
-					cards.add(new Card(tempRoomName, CardType.ROOM));
+				if(!tempRoomName.equals("Closet") && !tempRoomName.equals("Walkway")){
+					Card c = new Card(tempRoomName, CardType.ROOM);
+					cards.put(tempRoomName, c);
+				}
 			}
 		}
 		}
@@ -58,11 +61,11 @@ public class ClueGame {
 		loadRoomCards(legend);
 		loadWeaponCards(weaponFile);
 		loadPeopleCards(peopleFile);
-		loadCardTypes(cardTypes);
+		//loadCardTypes(cardTypes);
 	}
 	
 	
-	//Please look this over if I did it right
+	/*//Please look this over if I did it right
 	public void loadCardTypes(String cardTypes) {
 			try{
 			FileReader legendReader = new FileReader(cardTypes);
@@ -72,11 +75,11 @@ public class ClueGame {
 			while (legendIn.hasNextLine()) {
 				lineNumber = lineNumber + 1;
 				String legendLine = legendIn.nextLine();
-				/*if (!legendLine.contains(","))
+				if (!legendLine.contains(","))
 					throw new BadConfigFormatException(cardTypes, ",", lineNumber);
 				if (legendLine.indexOf(',')!=legendLine.lastIndexOf(','))
 					throw new BadConfigFormatException(cardTypes, "MULTIPLE ','", lineNumber);
-				*/
+				
 				String[] splitLegendLine = legendLine.split(",");
 				// Splits the line into two strings, the first being the initial, 
 				//   the second being the name of the room   
@@ -97,13 +100,16 @@ public class ClueGame {
 				e.printStackTrace();
 			}
 		
-	}
+	}*/
 	public void loadWeaponCards(String weaponFile) {
 		try{
 			FileReader legendReader = new FileReader(weaponFile);
 			Scanner legendIn = new Scanner(legendReader);
+			String weaponName;
 			while(legendIn.hasNextLine()){
-				cards.add(new Card(legendIn.nextLine(), CardType.WEAPON));
+				weaponName = legendIn.nextLine();
+				Card c = new Card(weaponName, CardType.WEAPON);
+				cards.put(weaponName, c);
 			}
 		}
 		catch(FileNotFoundException e){
@@ -129,7 +135,8 @@ public class ClueGame {
 					Player p = new ComputerPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
 					players.put(line[0],p);
 				}
-				cards.add(new Card(line[0], CardType.PERSON));
+				Card c = new Card(line[0], CardType.PERSON);
+				cards.put(line[0], c);
 				System.out.println(line[0]);
 				lineNumber ++;
 			}
