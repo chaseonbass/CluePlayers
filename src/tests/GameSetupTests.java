@@ -96,10 +96,10 @@ public class GameSetupTests {
 	@Test
 	public void testNoDuplicateCards(){
 		cg.deal();
-		Set <Card> cCards = new HashSet<Card>();
-		for(int i = 0; i < cg.players.size(); i++){
-			for(int j = 0; j < cg.players.get(i).getCards().size(); j++){
-				cCards.add(cg.players.get(i).getCards().get(j));
+		Set <Card> cCards = new HashSet<Card>();  // by adding all the cards to a set we ensure that 
+		for(String key : cg.players.keySet()){    // there are no duplicate cards
+			for(String pKey : cg.players.get(key).getCards().keySet()){
+				cCards.add(cg.players.get(key).getCards().get(pKey));
 			}
 		}
 		Assert.assertTrue(cg.cards.size() == cCards.size());

@@ -1,9 +1,11 @@
 package cluePlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player implements Comparable {
-	private ArrayList <Card> cards = new ArrayList<Card>();
+	private Map <String, Card> cards;
 	private String name, color;
 	private int index, row, column;
 	public Card disproveSuggestion(String person, String room, String weapon){
@@ -16,6 +18,7 @@ public class Player implements Comparable {
 		this.color = color;
 		this.row = row;
 		this.column = column;
+		cards = new HashMap<String , Card>();
 	}
 
 	public String getName(){
@@ -33,8 +36,11 @@ public class Player implements Comparable {
 	public int getColumn(){
 		return column;
 	}
-	public ArrayList<Card> getCards(){
+	public Map<String, Card> getCards(){
 		return cards;
+	}
+	public void addCard(Card c){
+		cards.put(c.getName(), c);
 	}
 	public int compareTo(Object o) {
 		if(this.name.equalsIgnoreCase(((Player) o).getName())){

@@ -18,7 +18,17 @@ public class ClueGame {
 	private Solution solution;
 	
 	public void deal(){
-		
+		ArrayList <Card> aCards = new ArrayList<Card>();
+		ArrayList <Player> aPlayers = new ArrayList<Player>();
+		for(String playKey : players.keySet()){
+			aPlayers.add(players.get(playKey));
+		}
+		for(String key : cards.keySet()){
+			aCards.add(cards.get(key));
+		}
+		for(int i = 0; i < aCards.size(); i++){
+			aPlayers.get((i)%aPlayers.size()).addCard(aCards.get(i));
+		}
 		
 	}
 	public void loadRoomCards(String legend){
