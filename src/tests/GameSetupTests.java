@@ -13,33 +13,30 @@ import org.junit.*;
 import cluePlayer.*;
 import clueGame.*;
 
-public class GameSetupTests {
+public class GameSetupTests {  
 	public  static ClueGame cg;
 	@BeforeClass
-	public static void configGame(){
+	public static void configGame(){  // obviously the setup needed for the tests
 		cg = new ClueGame();
-		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt", "CardTypes.txt");
+		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 	}
 	
 	
 	@Test
-	public void testLoadPlayers(){
-		int expected = 6;
-		int actual = cg.players.size();
-		Assert.assertEquals(expected, actual);
-		Player b = new Player("Batman", "Black", 6, 3);
+	public void testLoadPlayers(){ 
+		int expected = 6; //amount of players in file
+		int actual = cg.players.size();  // gets the size of the Map that contains the players loaded
+		Assert.assertEquals(expected, actual); //testing that amount of players is correct
+		Player b = new Player("Batman", "Black", 6, 3);  // creating players with appropriate creds
 		Player c = new Player("Joker", "Green", 15, 1);
 		Player d = new Player("Penguin", "White", 8, 0);
-		Assert.assertTrue(cg.players.containsKey("Batman"));
-		Assert.assertTrue(cg.players.containsKey("Joker"));
+		Assert.assertTrue(cg.players.containsKey("Batman"));  //ensure Batman is in the map
+		Assert.assertTrue(cg.players.containsKey("Joker"));  // ensure his friends are there too
 		Assert.assertTrue(cg.players.containsKey("Penguin"));
-		String expecto = "Batman";
-		String actualo = cg.players.get("Batman").getName();
-		Assert.assertEquals(expecto, actualo);
 		Assert.assertTrue(cg.players.get("Batman").getColor().equalsIgnoreCase("Black")); //Batman color
 		Assert.assertTrue(cg.players.get("Joker").getColor().equalsIgnoreCase("Green")); //Joker color
 		Assert.assertTrue(cg.players.get("Penguin").getColor().equalsIgnoreCase("White")); //penguin color
-		Assert.assertTrue(cg.players.get("Batman").getRow() == 6);
+		Assert.assertTrue(cg.players.get("Batman").getRow() == 6);  // ensuring the start locations are correct
 		Assert.assertTrue(cg.players.get("Joker").getRow() == 15);
 		Assert.assertTrue(cg.players.get("Penguin").getRow() == 8);
 		Assert.assertTrue(cg.players.get("Batman").getColumn() == 3);
@@ -48,45 +45,49 @@ public class GameSetupTests {
 	}
 	@Test
 	public void testLoadCards(){
-		int expected = 21;
+		int expected = 21;  // amount of cards expected
 		int actual = cg.cards.size();
-		Assert.assertEquals(expected, actual);
+		Assert.assertEquals(expected, actual);  // tests that size of cards map is the same as amount of cards loaded
 		int numWeapons = 0;
 		int numRooms = 0;
 		int numPeople = 0;
-		for(String key : cg.cards.keySet()){
-			if(cg.cards.get(key).getCartype() == Card.CardType.WEAPON)
+		for(String key : cg.cards.keySet()){  // gathers info for the amount of each cardType present
+			if(cg.cards.get(key).getCartype() == Card.CardType.WEAPON)  
 				numWeapons ++;
 			else if(cg.cards.get(key).getCartype() == Card.CardType.PERSON)
 				numPeople ++;
 			else if(cg.cards.get(key).getCartype() == Card.CardType.ROOM)
 				numRooms ++;
 		}
-		Assert.assertTrue(numWeapons == 6);
+		//Test that there are 6 weapons, 6 people, and 9 rooms
+		Assert.assertTrue(numWeapons == 6); 
 		Assert.assertTrue(numRooms == 9);
 		Assert.assertTrue(numPeople == 6);
 		boolean expecto = true;
-		Card b = new Card("Batman", Card.CardType.PERSON);
+		Card b = new Card("Batman", Card.CardType.PERSON);  
 		boolean actualo = cg.cards.containsKey("Batman");
-		Assert.assertTrue(cg.cards.containsKey("Batman"));
-		Assert.assertTrue(cg.cards.containsKey("Conservatory"));
-		Assert.assertTrue(cg.cards.containsKey("Kitten"));
+		Assert.assertTrue(cg.cards.containsKey("Batman")); //tests there is a card for a person 
+		Assert.assertTrue(cg.cards.containsKey("Conservatory")); // and a room 
+		Assert.assertTrue(cg.cards.containsKey("Kitten"));      // and a weapon
+
 	}
 	@Test
+		//test that the cards are dealt correctly and it is equally distributed.
+		//noone can have more than 1 card more or more than 1 card less than other players.
 	public void testDealtCards(){
 		cg.deal();
-		ArrayList<Player> aPlayers = new ArrayList<Player>();
+		ArrayList<Player> aPlayers = new ArrayList<Player>();  // created to iterate through a little easier
 		int remaining = cg.cards.size();
 		for(String key : cg.players.keySet()){
-			aPlayers.add(cg.players.get(key));
-		}
-		for(int i = 0; i < aPlayers.size(); i++){
+			aPlayers.add(cg.players.get(key));   // adds all players in the map to a new array list
+		}										// done to compare the amount of cards the person ahead of current has
+		for(int i = 0; i < aPlayers.size(); i++){  
 			if(i < aPlayers.size() -1){
 				Assert.assertTrue(aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() || 
 						aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() + 1	||
 								aPlayers.get(i).getCards().size() == aPlayers.get(i+1).getCards().size() -1);
 			}
-			remaining = remaining - aPlayers.get(i).getCards().size();
+			remaining = remaining - aPlayers.get(i).getCards().size(); 
 		}
 		int expected = 0;
 		int actual = remaining;
@@ -106,17 +107,27 @@ public class GameSetupTests {
 	}
 	
 	@Test
-	public void testAccusations(){
-		cg.setSolution("Batman", "Kitten", "Library");
-		Solution correctoMundo = new Solution ("Batman", "Kitten", "Library");
-		Solution falseOne = new Solution ("Joker", "Kitten", "Library");
-		Solution falseTwo = new Solution ("Batman", "Batarang", "Library");
-		Solution falseThree = new Solution ("Batman", "Kitten", "Conservatory");
 	
-		Assert.assertFalse(cg.checkAccusation(falseOne));
-		Assert.assertFalse(cg.checkAccusation(falseTwo));
-		Assert.assertFalse(cg.checkAccusation(falseThree));
-		Assert.assertTrue(cg.checkAccusation(correctoMundo));
+	//test to make sure the right accusations is made.
+	public void testAccusations(){
+		//this set the solution
+		Solution correctoMundo = new Solution ("Batman", "Kitten", "Library");
+		cg.setSolution(correctoMundo);
+		
+		// this is an example of a correct solution which means all three fields has to match the solution
+		Assert.assertTrue(cg.checkAccusation("Batman", "Kitten", "Library"));
+		
+		// these are example of the ones that not suppose to be the solution
+	
+		//wrong person
+		Assert.assertFalse(cg.checkAccusation("Joker", "Kitten", "Library"));
+		//wrong weapon
+		Assert.assertFalse(cg.checkAccusation("Batman", "Batarang", "Library"));
+		//wrong weapon, wrong room
+		Assert.assertFalse(cg.checkAccusation("Batman", "Batarang", "Conservatory"));
+		
+		
+		
 
 	}
 
