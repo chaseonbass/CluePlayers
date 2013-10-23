@@ -11,6 +11,9 @@ public class Player implements Comparable {
 	public Card disproveSuggestion(String person, String room, String weapon){
 		return new Card();
 	}
+	public Player(){
+		
+	}
 
 	public Player(String name, String color, int row, int column) {
 		super();
