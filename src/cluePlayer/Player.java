@@ -2,7 +2,9 @@ package cluePlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Player implements Comparable {
 	private Map <String, Card> cards;
@@ -12,8 +14,10 @@ public class Player implements Comparable {
 		return new Card();
 	}
 	public Player(){
-		
+		cards = new HashMap<String , Card>();
 	}
+	
+
 
 	public Player(String name, String color, int row, int column) {
 		super();
@@ -26,6 +30,13 @@ public class Player implements Comparable {
 
 	public String getName(){
 		return name;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	public void setColumn(int column) {
+		this.column = column;
 	}
 	public String getColor(){
 		return color;

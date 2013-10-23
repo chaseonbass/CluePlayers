@@ -3,6 +3,7 @@ package cluePlayer;
 import java.util.Set;
 
 import clueGame.BoardCell;
+import cluePlayer.*;
 
 public class ComputerPlayer extends Player{
 	public ComputerPlayer(){
@@ -20,8 +21,8 @@ public class ComputerPlayer extends Player{
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		return new BoardCell();
 	}
-	public void createSuggestion(){
-		
+	public Suggestion createSuggestion(){
+		return new Suggestion("x", "y", "z");
 	}
 
 	
