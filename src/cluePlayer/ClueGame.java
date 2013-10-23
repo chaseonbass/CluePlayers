@@ -135,6 +135,8 @@ public class ClueGame {
 		return false;
 		}
 	}
+	
+
 	public Solution getSolution(){ 
 		return solution;
 	}

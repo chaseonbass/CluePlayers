@@ -8,16 +8,30 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cluePlayer.Card;
 import cluePlayer.ClueGame;
 import cluePlayer.Solution;
 
 public class GameActionTests {
-	public  static ClueGame cg;
+	public static ClueGame cg;
+	public static Card kittenCard;
+	public static Card batmanCard;
+	public static Card libraryCard;
+	public static Card jokerCard;
+	public static Card batarangCard;
+	public static Card conservatoryCard;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		cg = new ClueGame();
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
+		kittenCard = new Card("Kitten", Card.CardType.WEAPON);
+		batarangCard = new Card("BatarangCard", Card.CardType.WEAPON);
+		batmanCard = new Card("Batman", Card.CardType.PERSON);
+		jokerCard = new Card("Joker", Card.CardType.PERSON);
+		libraryCard = new Card("Library", Card.CardType.ROOM);
+		conservatoryCard = new Card("Conservatory", Card.CardType.ROOM);
+		
 	}
 	
 	//test to make sure the right accusations is made.
@@ -41,7 +55,7 @@ public class GameActionTests {
 	}
 	@Test
 	public void testTargetRandomSelection() {
-		Board board = new Board("BoardLayout.csv", "legend.txt");
+	Board board = new Board("BoardLayout.csv", "legend.txt");
 	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15);
 	// Pick a location with no rooms in target, just three targets
 	board.calcTargets(board.calcIndex(0,20), 2);
@@ -95,9 +109,35 @@ public class GameActionTests {
 	assertTrue(loc_6_19Tot == 0);
 	assertTrue(loc_5_18Tot == 0);							
 }
-	
+
+	@Test
 	public void disproveSuggestion(){
+		ComputerPlayer player = new ComputerPlayer();
+		Player suspected = new Player();
+		player.addCard(batarangCard);
+		player.addCard(batmanCard);
+		player.addCard(conservatoryCard);
+		player.addCard(jokerCard);
+		player.addCard(kittenCard);
+		player.addCard(libraryCard);
 		
+		//One player, one correct match
+		suspected.disproveSuggestion("Batman", "Conservatory", "Batarang" );
+		Assert.assertEquals(suspected,batmanCard);
+		suspected.disproveSuggestion("Joker", "Library", "Batarang");
+		Assert.assertEquals(suspected, libraryCard);
+		suspected.disproveSuggestion("Joker", "Conservatory", "Kitten");
+		Assert.assertEquals(suspected, kittenCard);
+		suspected.disproveSuggestion(null, null, null);
+		Assert.assertEquals(suspected, null);
+		
+		
+		//One player, multiple matches
+		
+		
+		
+		
+
 	}
 	public void makeSuggestion(){
 		
