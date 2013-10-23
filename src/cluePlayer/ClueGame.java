@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
@@ -13,9 +15,18 @@ import clueGame.RoomCell;
 import cluePlayer.Card.CardType;
 
 public class ClueGame {
+	private Set<Card> seenCards;
 	public Map<String, Player> players;
 	public Map <String, Card> cards;
 	private Solution solution;
+	
+	public ClueGame(){
+		seenCards = new HashSet<Card>();
+	}
+	
+	public void addSeenCards(Card c){
+		seenCards.add(c);
+	}
 	
 	public void deal(){  // deals cards to players
 		ArrayList <Card> aCards = new ArrayList<Card>();  // created to make things easier

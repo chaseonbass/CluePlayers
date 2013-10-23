@@ -8,8 +8,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cluePlayer.Card.CardType;
 import cluePlayer.ClueGame;
 import cluePlayer.Solution;
+import cluePlayer.Suggestion;
 
 public class GameActionTests {
 	public  static ClueGame cg;
@@ -127,8 +129,44 @@ public class GameActionTests {
 	
 	public void disproveSuggestion(){
 		
+		
 	}
-	public void makeSuggestion(){
+	
+	public void addCardstoSeen(Card b){
+		cg.addSeenCards(b);
+		
+	}
+	public void makeSuggestion(){  //  tests that correct suggestion is made by making all but three cards seen
+		ComputerPlayer player = new ComputerPlayer("Joker", "Green", 7, 20);
+		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
+		int timesSChosen= 0;
+		int timesFChosen = 0;
+	// batman joker batarang kitten conservatory library 
+		Card a = new Card("Pikachu", CardType.WEAPON);
+		addCardstoSeen(a);
+		Card b = new Card("Arnold", CardType.PERSON);
+		addCardstoSeen(b);
+		for(int i = 0; i < 100; i ++){
+			Suggestion guess = player.createSuggestion();
+			if(guess.getRoom() == "Study"){
+				timesSChosen++;
+			}
+			if(guess.getWeapon() == "The Force")
+				timesFChosen ++;
+		}
+		Assert.assertTrue(timesSChosen == 100);  //tests that the Study is chosen everytime for the room
+		Assert.assertTrue(timesFChosen > 10);    // tests that the force is chosen few times
+		Assert.assertTrue(timesFChosen < 100);    // tests that the force is not chosen everytime
+		Card c = new Card("TwoFace", CardType.PERSON);
+		addCardstoSeen(c);
+		Card d = new Card("Ivy", CardType.PERSON);
+		addCardstoSeen(d);
+		Card e = new Card("Napalm", CardType.WEAPON);
+		addCardstoSeen(e);
+		Card f = new Card("The Force", CardType.WEAPON);
+		addCardstoSeen(f);
+		Suggestion compSuggest = player.createSuggestion();
+		Assert.assertTrue(compSuggest.equals(sugg));
 		
 	}
 

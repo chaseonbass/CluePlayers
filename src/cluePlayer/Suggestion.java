@@ -1,45 +1,14 @@
 package cluePlayer;
 
-public class Solution {
-public String person;
-public String weapon;
-public String room;
+public class Suggestion {
+	String person, weapon, room;
 
-	public Solution() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Solution(String person, String weapon, String room) {
+	public Suggestion(String person, String weapon, String room) {
 		super();
 		this.person = person;
 		this.weapon = weapon;
 		this.room = room;
 	}
-
-	public String getPerson() {
-		return person;
-	}
-
-	public void setPerson(String person) {
-		this.person = person;
-	}
-
-	public String getWeapon() {
-		return weapon;
-	}
-
-	public void setWeapon(String weapon) {
-		this.weapon = weapon;
-	}
-
-	public String getRoom() {
-		return room;
-	}
-
-	public void setRoom(String room) {
-		this.room = room;
-	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -49,7 +18,7 @@ public String room;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Solution other = (Solution) obj;
+		Suggestion other = (Suggestion) obj;
 		if (person == null) {
 			if (other.person != null)
 				return false;
@@ -66,6 +35,18 @@ public String room;
 		} else if (!weapon.equals(other.weapon))
 			return false;
 		return true;
+	}
+	
+	public String getRoom(){
+		return room;
+	}
+
+	public String getPerson() {
+		return person;
+	}
+
+	public String getWeapon() {
+		return weapon;
 	}
 	
 	
