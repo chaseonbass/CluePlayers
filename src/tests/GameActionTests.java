@@ -44,28 +44,56 @@ public class GameActionTests {
 		Board board = new Board("BoardLayout.csv", "legend.txt");
 	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15);
 	// Pick a location with no rooms in target, just three targets
-	board.calcTargets(board.calcIndex(14,2), 2);
-	int loc_12_0Tot = 0;
-	int loc_14_2Tot = 0;
-	int loc_15_1Tot = 0;
+	board.calcTargets(board.calcIndex(0,20), 2);
+	int loc_2_20Tot = 0;
+	int loc_1_19Tot = 0;
+	int loc_0_18Tot = 0;
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
 		BoardCell selected = player.pickLocation(board.getTargets());
-		if (selected == board.getCellAt(12, 0))
-			loc_12_0Tot++;
-		else if (selected == board.getCellAt(14, 2))
-			loc_14_2Tot++;
-		else if (selected == board.getCellAt(15, 1))
-			loc_15_1Tot++;
+		if (selected == board.getCellAt(2, 20))
+			loc_2_20Tot++;
+		else if (selected == board.getCellAt(1,19))
+			loc_1_19Tot++;
+		else if (selected == board.getCellAt(0, 18))
+			loc_0_18Tot++;
 		else
 			fail("Invalid target selected");
 	}
 	// Ensure we have 100 total selections (fail should also ensure)
-	assertEquals(100, loc_12_0Tot + loc_14_2Tot + loc_15_1Tot);
+	assertEquals(100, loc_2_20Tot + loc_1_19Tot + loc_0_18Tot);
 	// Ensure each target was selected more than once
-	assertTrue(loc_12_0Tot > 10);
-	assertTrue(loc_14_2Tot > 10);
-	assertTrue(loc_15_1Tot > 10);							
+	assertTrue(loc_2_20Tot > 10);
+	assertTrue(loc_1_19Tot > 10);
+	assertTrue(loc_0_18Tot > 10);							
+}
+	@Test
+	public void testTargetRoomSelectionNotVisited() {
+		Board board = new Board("BoardLayout.csv", "legend.txt");
+	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15);
+	// Pick a location with no rooms in target, just three targets
+	board.calcTargets(board.calcIndex(0,20), 2);
+	int loc_2_20Tot = 0;
+	int loc_1_19Tot = 0;
+	int loc_0_18Tot = 0;
+	// Run the test 100 times
+	for (int i=0; i<100; i++) {
+		BoardCell selected = player.pickLocation(board.getTargets());
+		if (selected == board.getCellAt(2, 20))
+			loc_2_20Tot++;
+		else if (selected == board.getCellAt(1,19))
+			loc_1_19Tot++;
+		else if (selected == board.getCellAt(0, 18))
+			loc_0_18Tot++;
+		else
+			fail("Invalid target selected");
+	}
+	// Ensure we have 100 total selections (fail should also ensure)
+	assertEquals(100, loc_2_20Tot + loc_1_19Tot + loc_0_18Tot);
+	// Ensure each target was selected more than once
+	assertTrue(loc_2_20Tot > 10);
+	assertTrue(loc_1_19Tot > 10);
+	assertTrue(loc_0_18Tot > 10);							
 }
 	
 	public void disproveSuggestion(){
