@@ -136,6 +136,8 @@ public class GameActionTests {
 		cg.addSeenCards(b);
 		
 	}
+	
+	@Test
 	public void makeSuggestion(){  //  tests that correct suggestion is made by making all but three cards seen
 		ComputerPlayer player = new ComputerPlayer("Joker", "Green", 7, 20);
 		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
