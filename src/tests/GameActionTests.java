@@ -305,7 +305,6 @@ public class GameActionTests {
 		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
 		int timesSChosen= 0;
 		int timesFChosen = 0;
-	// batman joker batarang kitten conservatory library 
 		Card a = new Card("Pikachu", CardType.WEAPON);
 		addCardstoSeen(a);
 		Card same = new Card("Pikachu", CardType.WEAPON);
@@ -335,7 +334,7 @@ public class GameActionTests {
 		addCardstoSeen(conservatoryCard);
 		addCardstoSeen(jokerCard);
 		addCardstoSeen(kittenCard);
-		addCardstoSeen(libraryCard);
+		addCardstoSeen(libraryCard);  // By this point all the cards have been seen, the following test checks for the correct suggestion
 		int timesCorrect = 0;
 		for(int i = 0; i < 100; i ++){
 			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());

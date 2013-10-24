@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
 import cluePlayer.ComputerPlayer;
 import cluePlayer.HumanPlayer;
 import cluePlayer.Player;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import clueGame.Board;
@@ -14,12 +15,30 @@ public class Player implements Comparable {
 	protected int index, row, column;
 	Board board;
 	public Card disproveSuggestion(String person, String room, String weapon){
-		return new Card();
+		ArrayList <Card> match= new ArrayList<Card>();
+
+		for(String c : cards.keySet()){
+			if (cards.get(c).getName().equals(person) || cards.get(c).getName().equals(room) || cards.get(c).getName().equals(weapon)){
+				match.add(cards.get(c));
+			}
+		}
+		Random rand= new Random();
+		System.out.println("that size" + match.size());
+		if(match.size() >= 1){
+			System.out.println("Here");
+			int next= new Random().nextInt(match.size());
+			return match.get(next);
+			
+		}
+		
+		return null;
+
+		//		return new Card();
 	}
 	public Player(){
 		cards = new HashMap<String , Card>();
 	}
-	
+
 
 
 	public Player(String name, String color, int row, int column, Board board) {
