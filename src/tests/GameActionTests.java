@@ -334,17 +334,17 @@ public class GameActionTests {
 		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
 		int timesSChosen= 0;
 		int timesFChosen = 0;
-	// batman joker batarang kitten conservatory library 
 		Card a = new Card("Pikachu", CardType.WEAPON);
 		addCardstoSeen(a);
+		Card same = new Card("Pikachu", CardType.WEAPON);
 		Card b = new Card("Arnold", CardType.PERSON);
 		addCardstoSeen(b);
 		for(int i = 0; i < 100; i ++){
-			Suggestion guess = player.createSuggestion();
-			if(guess.getRoom() == "Study"){
+			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
+			if(guess.getRoom().equals("Study")){
 				timesSChosen++;
 			}
-			if(guess.getWeapon() == "The Force")
+			if(guess.getWeapon().equals("The Force"))
 				timesFChosen ++;
 		}
 		Assert.assertTrue(timesSChosen == 100);  //tests that the Study is chosen everytime for the room
@@ -358,8 +358,22 @@ public class GameActionTests {
 		addCardstoSeen(e);
 		Card f = new Card("The Force", CardType.WEAPON);
 		addCardstoSeen(f);
-		Suggestion compSuggest = player.createSuggestion();
-		Assert.assertTrue(compSuggest.equals(sugg));
+		addCardstoSeen(batarangCard);
+		addCardstoSeen(batmanCard);
+		addCardstoSeen(conservatoryCard);
+		addCardstoSeen(jokerCard);
+		addCardstoSeen(kittenCard);
+		addCardstoSeen(libraryCard);  // By this point all the cards have been seen, the following test checks for the correct suggestion
+		int timesCorrect = 0;
+		for(int i = 0; i < 100; i ++){
+			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
+			if(guess.equals(sugg)){
+				timesCorrect++;
+			}
+			else
+				Assert.fail("Fail!");
+		}
+		Assert.assertTrue(timesCorrect == 100);
 		
 	}
 
