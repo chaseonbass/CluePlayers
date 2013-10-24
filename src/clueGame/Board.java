@@ -9,14 +9,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
-<<<<<<< HEAD
 import javax.swing.text.html.HTMLDocument.Iterator;
-=======
 import cluePlayer.ComputerPlayer;
 import cluePlayer.HumanPlayer;
 import cluePlayer.Player;
->>>>>>> 1cf01252f47c832b2c241f6aa2cad59252b57b7c
 
 /** Name: ebreikss
  *  Date: Oct 1, 2013

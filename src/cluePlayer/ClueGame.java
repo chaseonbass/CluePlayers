@@ -23,6 +23,8 @@ public class ClueGame {
 	
 	public ClueGame(String boardFile, String legendFile){
 		board = new Board(boardFile, legendFile);
+		board.loadConfigFiles();
+		board.calcAdjacencies();
 		seenCards = new HashSet<Card>();
 	}
 	private HumanPlayer hplayer;
@@ -129,7 +131,7 @@ public class ClueGame {
 				}
 				Card c = new Card(line[0], CardType.PERSON);
 				cards.put(line[0], c);  // adds as a card
-				System.out.println(line[0]);
+				//System.out.println(line[0]);
 				lineNumber ++;
 			}
 		}
@@ -142,11 +144,16 @@ public class ClueGame {
 
 	}
 	public Card handleSuggestion(String person, String room, String weapon, Player accusingPerson){
-		for (Player p : getComputerPlayers())
-			if (!p.equals(accusingPerson)){
-				Card suggestion = p.disproveSuggestion(person, room, weapon);
-				if (suggestion!=null)
+		Card suggestion= new Card();
+		suggestion= null;
+		for (Player player1 : getComputerPlayers())
+			if (!player1.equals(accusingPerson)){
+				 suggestion = player1.disproveSuggestion(person, room, weapon);
+				System.out.println("this is suggestion");
+				if (suggestion!=null){
+					seenCards.add(suggestion);
 					return suggestion;
+				}
 			}
 		return null;
 	}
