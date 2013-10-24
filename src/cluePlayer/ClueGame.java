@@ -23,6 +23,8 @@ public class ClueGame {
 	
 	public ClueGame(String boardFile, String legendFile){
 		board = new Board(boardFile, legendFile);
+		board.loadConfigFiles();
+		board.calcAdjacencies();
 		seenCards = new HashSet<Card>();
 	}
 	private HumanPlayer hplayer;
@@ -34,6 +36,9 @@ public class ClueGame {
 	
 	public void addSeenCards(Card c){
 		seenCards.add(c);
+	}
+	public Set<Card> getSeenCards(){
+		return seenCards;
 	}
 	
 	public void deal(){  // deals cards to players
@@ -129,7 +134,6 @@ public class ClueGame {
 				}
 				Card c = new Card(line[0], CardType.PERSON);
 				cards.put(line[0], c);  // adds as a card
-				System.out.println(line[0]);
 				lineNumber ++;
 			}
 		}

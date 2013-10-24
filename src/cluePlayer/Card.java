@@ -16,7 +16,8 @@ public class Card{
 			return value;
 		}
 	}
-	
+
+
 	public boolean equals(Object otherCard){  // this is done so we can see if one card equals another card
 		boolean result = false;					// the method ends up helping to test that no Duplicates are present when cards are dealt 
 		if(otherCard instanceof Card){
@@ -30,13 +31,11 @@ public class Card{
 		private CardType cardtype;
 		
 		public Card(String name, CardType cardtype) {
-			super();
 			this.name = name;
 			this.cardtype = cardtype;
 		}
 
 		public Card(){
-			super();
 		}
 
 		public String getName() {

@@ -10,13 +10,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-<<<<<<< HEAD
-import javax.swing.text.html.HTMLDocument.Iterator;
-=======
 import cluePlayer.ComputerPlayer;
 import cluePlayer.HumanPlayer;
 import cluePlayer.Player;
->>>>>>> 1cf01252f47c832b2c241f6aa2cad59252b57b7c
 
 /** Name: ebreikss
  *  Date: Oct 1, 2013
@@ -51,12 +47,11 @@ public class Board {
 		legend = "ClueLegend.txt";
 	}
 	
-	public Board(String layout, String legend) {  //
+	public Board(String layout, String legend) {  
 		super();
 		this.layout = layout;
 		this.legend = legend;
-		//loadConfigFiles();
-		// will probably just do loadConfigFiles()
+
 	}
 	
 	public void loadRoomConfig()throws BadConfigFormatException {

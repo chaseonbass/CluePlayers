@@ -34,10 +34,8 @@ public class GameActionTests {
 	public static void setUpBeforeClass() throws Exception {
 		cg = new ClueGame("BoardLayout.csv", "legend.txt");
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
-		cg.board.loadConfigFiles();
-		cg.board.calcAdjacencies();
 		kittenCard = new Card("Kitten", Card.CardType.WEAPON);
-		batarangCard = new Card("BatarangCard", Card.CardType.WEAPON);
+		batarangCard = new Card("Batarang", Card.CardType.WEAPON);
 		batmanCard = new Card("Batman", Card.CardType.PERSON);
 		jokerCard = new Card("Joker", Card.CardType.PERSON);
 		libraryCard = new Card("Library", Card.CardType.ROOM);
@@ -88,8 +86,6 @@ public class GameActionTests {
 	// Ensure we have 100 total selections (fail should also ensure)
 	assertEquals(100, loc_2_20Tot + loc_1_19Tot + loc_0_18Tot);
 	// Ensure each target was selected more than once
-	System.out.println(loc_2_20Tot);
-	System.out.println(loc_1_19Tot);
 	assertTrue(loc_2_20Tot > 10);
 	assertTrue(loc_1_19Tot > 10);
 	assertTrue(loc_0_18Tot > 10);							
@@ -135,7 +131,6 @@ public class GameActionTests {
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
 		BoardCell selected = player.pickLocation(cg.board.getTargets());
-		System.out.println(selected);
 		if (selected == cg.board.getCellAt(7, 20)) 
 			loc_7_20Tot++;
 		else if (selected == cg.board.getCellAt(6,19))
@@ -150,7 +145,6 @@ public class GameActionTests {
 	// Ensure we have 100 total selections (fail should also ensure)
 	assertEquals(100, loc_7_20Tot + loc_6_19Tot + loc_5_18Tot + loc_4_19Tot + loc_3_20Tot );
 	// Ensure the selection was made at random instead of always choosing the room
-	System.out.println(loc_7_20Tot+" " + loc_6_19Tot + " "+ loc_5_18Tot );
 	assertTrue(loc_7_20Tot > 9);
 	assertTrue(loc_6_19Tot >  9);
 	assertTrue(loc_5_18Tot > 9);							
@@ -314,14 +308,15 @@ public class GameActionTests {
 	// batman joker batarang kitten conservatory library 
 		Card a = new Card("Pikachu", CardType.WEAPON);
 		addCardstoSeen(a);
+		Card same = new Card("Pikachu", CardType.WEAPON);
 		Card b = new Card("Arnold", CardType.PERSON);
 		addCardstoSeen(b);
 		for(int i = 0; i < 100; i ++){
-			Suggestion guess = player.createSuggestion();
-			if(guess.getRoom() == "Study"){
+			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
+			if(guess.getRoom().equals("Study")){
 				timesSChosen++;
 			}
-			if(guess.getWeapon() == "The Force")
+			if(guess.getWeapon().equals("The Force"))
 				timesFChosen ++;
 		}
 		Assert.assertTrue(timesSChosen == 100);  //tests that the Study is chosen everytime for the room
@@ -335,8 +330,22 @@ public class GameActionTests {
 		addCardstoSeen(e);
 		Card f = new Card("The Force", CardType.WEAPON);
 		addCardstoSeen(f);
-		Suggestion compSuggest = player.createSuggestion();
-		Assert.assertTrue(compSuggest.equals(sugg));
+		addCardstoSeen(batarangCard);
+		addCardstoSeen(batmanCard);
+		addCardstoSeen(conservatoryCard);
+		addCardstoSeen(jokerCard);
+		addCardstoSeen(kittenCard);
+		addCardstoSeen(libraryCard);
+		int timesCorrect = 0;
+		for(int i = 0; i < 100; i ++){
+			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
+			if(guess.equals(sugg)){
+				timesCorrect++;
+			}
+			else
+				Assert.fail("Fail!");
+		}
+		Assert.assertTrue(timesCorrect == 100);
 		
 	}
 
