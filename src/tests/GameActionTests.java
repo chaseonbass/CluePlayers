@@ -86,6 +86,8 @@ public class GameActionTests {
 	// Ensure we have 100 total selections (fail should also ensure)
 	assertEquals(100, loc_2_20Tot + loc_1_19Tot + loc_0_18Tot);
 	// Ensure each target was selected more than once
+	System.out.println(loc_2_20Tot);
+	System.out.println(loc_1_19Tot);
 	assertTrue(loc_2_20Tot > 10);
 	assertTrue(loc_1_19Tot > 10);
 	assertTrue(loc_0_18Tot > 10);							
@@ -131,6 +133,7 @@ public class GameActionTests {
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
 		BoardCell selected = player.pickLocation(cg.board.getTargets());
+		System.out.println(selected);
 		if (selected == cg.board.getCellAt(7, 20)) 
 			loc_7_20Tot++;
 		else if (selected == cg.board.getCellAt(6,19))
@@ -145,6 +148,7 @@ public class GameActionTests {
 	// Ensure we have 100 total selections (fail should also ensure)
 	assertEquals(100, loc_7_20Tot + loc_6_19Tot + loc_5_18Tot + loc_4_19Tot + loc_3_20Tot );
 	// Ensure the selection was made at random instead of always choosing the room
+	System.out.println(loc_7_20Tot+" " + loc_6_19Tot + " "+ loc_5_18Tot );
 	assertTrue(loc_7_20Tot > 9);
 	assertTrue(loc_6_19Tot >  9);
 	assertTrue(loc_5_18Tot > 9);							
@@ -165,7 +169,10 @@ public class GameActionTests {
 		
 		//One player, one correct match
 		suspected= player.disproveSuggestion("Batman", "Study", "The Force" );
+		//System.out.println(suspected.getName());
 		Assert.assertEquals(batmanCard, suspected);
+		
+		//System.out.println(suspected.getName());
 		suspected= player.disproveSuggestion("Penguin", "Library", "The Force");
 		Assert.assertEquals(libraryCard, suspected);
 		suspected= player.disproveSuggestion("Penguin", "Study", "Kitten");
@@ -180,28 +187,37 @@ public class GameActionTests {
 	public void multiplematches(){
 		Player player = new Player();
 		Card suspected = new Card();
-		suspected= player.disproveSuggestion("Batman", "Batarang", "Library" );
+		player.addCard(batarangCard);
+		player.addCard(batmanCard);
+		player.addCard(conservatoryCard);
+		player.addCard(jokerCard);
+		player.addCard(kittenCard);
+		player.addCard(libraryCard);
+		
 		int timesBatChosen =0;
 		int timesBataChosen= 0;
 		int timesLibChosen= 0;
 		
-		Player player2= new Player();
-		
 		for(int i= 0; i < 100; i++){
-			if(suspected.equals(batmanCard)){
+			suspected= player.disproveSuggestion("Batman", "Library","Batarang");
+			if(suspected.getName().equals(batmanCard.getName())){
 				timesBatChosen++;
+				
 			}
-				else if(suspected.equals(batarangCard)){
+				else if(suspected.getName().equals(batarangCard.getName())){
 					timesBataChosen++;
+					
 				}
-				else if(suspected.equals(libraryCard)){
+				else if(suspected.getName().equals(libraryCard.getName())){
 					timesLibChosen++;
 			}
 				else 
 					fail("That card was not part of the suggestion");
 			
 		}
-		
+		// Ensure we have 100 total selections (fail should also ensure)
+		Assert.assertEquals(100, timesBatChosen + timesBataChosen + timesLibChosen);
+		// Ensure each target was selected more than once
 		Assert.assertTrue(timesBataChosen > 10);  //tests that the batarang is chosen few time
 		Assert.assertTrue(timesBatChosen > 10);    // tests that the bat is chosen few times
 		Assert.assertTrue(timesLibChosen > 10);    // tests that the library was chosen few times
@@ -211,22 +227,26 @@ public class GameActionTests {
 		timesBataChosen= 0;
 		timesLibChosen= 0;
 		
-		
+
 		//match weapon and room
 		for(int i= 0; i < 100; i++){
-				if(suspected.equals(batarangCard)){
+			suspected= player.disproveSuggestion("Arnold", "Library","Batarang");
+				if(suspected.getName().equals("Batarang")){
 					timesBataChosen++;
 				}
-				else if(suspected.equals(libraryCard)){
+				else if(suspected.getName().equals(libraryCard.getName())){
 					timesLibChosen++;
 			}
-				else 
+				else {
 					fail("That card was not part of the suggestion");
+				}
 			
 		}
-		
+		// Ensure we have 100 total selections (fail should also ensure)
+		Assert.assertEquals(100, timesBataChosen + timesLibChosen);
+		// Ensure each target was selected more than once
 		Assert.assertTrue(timesBataChosen > 10);  //tests that the batarang is chosen few time
-		Assert.assertTrue(timesLibChosen > 10);    // tests that the bat is chosen few times
+		Assert.assertTrue(timesLibChosen > 10);    // tests that the Library is chosen few times
 		
 		
 		
@@ -234,6 +254,7 @@ public class GameActionTests {
 		timesBatChosen= 0;
 		timesLibChosen= 0;
 		for(int i= 0; i < 100; i++){
+			suspected= player.disproveSuggestion("Batman", "Library","The Force");
 				if(suspected.equals(batmanCard)){
 					timesBatChosen++;
 				}
@@ -245,11 +266,15 @@ public class GameActionTests {
 			
 		}
 		
+		// Ensure we have 100 total selections (fail should also ensure)
+		Assert.assertEquals(100, timesBatChosen + timesLibChosen);
+		// Ensure each target was selected more than once
 		Assert.assertTrue(timesBatChosen > 10);  //tests that the Batman is chosen few time
-		Assert.assertTrue(timesLibChosen > 10);    // tests that the bat is chosen few times
+		Assert.assertTrue(timesLibChosen > 10);    // tests that the Library is chosen few times
 		
 	}
 	
+	@Test
 	public void testAllPlayerinQueried(){
 		ArrayList<ComputerPlayer> cplayers = new ArrayList<ComputerPlayer>();
 		HumanPlayer hplayer= new HumanPlayer("Batman", "Black", 7, 20, cg.board);
@@ -275,11 +300,13 @@ public class GameActionTests {
 		
 		//A suggestion that no player can prove
 		suggestion= cg.handleSuggestion("Penguin", "Kitchen", "The Force", cplayer5 );
+		System.out.println("what the hell" +suggestion);
 		Assert.assertEquals(null, suggestion);
-		
+
 		//A suggestion only human can prove
 		suggestion= cg.handleSuggestion("Batman", "Kitchen", "The Force", cplayer2);
-		Assert.assertEquals("Batman", suggestion);
+		
+		Assert.assertEquals(null, suggestion);
 		
 		//cplayer1 makes the suggestion and is the only who can disprove it
 		suggestion= cg.handleSuggestion("Penguin", "Kitchen", "Batarang", cplayer1);
@@ -290,9 +317,11 @@ public class GameActionTests {
 		Assert.assertEquals(null, suggestion);
 		
 		//test the order the players are queried
+		suggestion= cg.handleSuggestion("Joker", "Kitchen", "Kitten", cplayer1);
+		Assert.assertTrue(jokerCard.equals(suggestion));
 		suggestion= cg.handleSuggestion("Batman", "Kitchen", "Kitten", cplayer1);
-		Assert.assertEquals(batmanCard, "Batman");
-		Assert.assertEquals(kittenCard, "Kitten");
+		Assert.assertTrue(kittenCard.equals(suggestion));
+		
 	}
 	public void addCardstoSeen(Card b){
 		cg.addSeenCards(b);
@@ -305,17 +334,17 @@ public class GameActionTests {
 		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
 		int timesSChosen= 0;
 		int timesFChosen = 0;
+	// batman joker batarang kitten conservatory library 
 		Card a = new Card("Pikachu", CardType.WEAPON);
 		addCardstoSeen(a);
-		Card same = new Card("Pikachu", CardType.WEAPON);
 		Card b = new Card("Arnold", CardType.PERSON);
 		addCardstoSeen(b);
 		for(int i = 0; i < 100; i ++){
-			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
-			if(guess.getRoom().equals("Study")){
+			Suggestion guess = player.createSuggestion();
+			if(guess.getRoom() == "Study"){
 				timesSChosen++;
 			}
-			if(guess.getWeapon().equals("The Force"))
+			if(guess.getWeapon() == "The Force")
 				timesFChosen ++;
 		}
 		Assert.assertTrue(timesSChosen == 100);  //tests that the Study is chosen everytime for the room
@@ -329,22 +358,8 @@ public class GameActionTests {
 		addCardstoSeen(e);
 		Card f = new Card("The Force", CardType.WEAPON);
 		addCardstoSeen(f);
-		addCardstoSeen(batarangCard);
-		addCardstoSeen(batmanCard);
-		addCardstoSeen(conservatoryCard);
-		addCardstoSeen(jokerCard);
-		addCardstoSeen(kittenCard);
-		addCardstoSeen(libraryCard);  // By this point all the cards have been seen, the following test checks for the correct suggestion
-		int timesCorrect = 0;
-		for(int i = 0; i < 100; i ++){
-			Suggestion guess = player.createSuggestion(cg.getSeenCards(), cg.cards, cg.board.getRooms());
-			if(guess.equals(sugg)){
-				timesCorrect++;
-			}
-			else
-				Assert.fail("Fail!");
-		}
-		Assert.assertTrue(timesCorrect == 100);
+		Suggestion compSuggest = player.createSuggestion();
+		Assert.assertTrue(compSuggest.equals(sugg));
 		
 	}
 

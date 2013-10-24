@@ -23,9 +23,7 @@ public class Player implements Comparable {
 			}
 		}
 		Random rand= new Random();
-		System.out.println("that size" + match.size());
 		if(match.size() >= 1){
-			System.out.println("Here");
 			int next= new Random().nextInt(match.size());
 			return match.get(next);
 			
