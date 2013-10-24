@@ -25,6 +25,8 @@ public class ClueGame {
 		board = new Board(boardFile, legendFile);
 		seenCards = new HashSet<Card>();
 	}
+	private HumanPlayer hplayer;
+	private ArrayList<ComputerPlayer> cplayers;
 	
 	public ClueGame(){
 		seenCards = new HashSet<Card>();
@@ -135,28 +137,52 @@ public class ClueGame {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void  selectAnswer(){  //empty
-		
+
 	}
-	public void handleSuggestion(String person, String room, String weapon, Player accusingPerson){
-		
+	public Card handleSuggestion(String person, String room, String weapon, Player accusingPerson){
+		for (Player p : getComputerPlayers())
+			if (!p.equals(accusingPerson)){
+				Card suggestion = p.disproveSuggestion(person, room, weapon);
+				if (suggestion!=null)
+					return suggestion;
+			}
+		return null;
 	}
-	
+
 	
 	public boolean checkAccusation(String person, String weapon, String room){
 		if (person.equals(solution.getPerson()) && weapon.equals(solution.getWeapon()) && room.equals(solution.getRoom())){
 			return true;
 		}
+		
 		else{
 		return false;
 		}
 	}
+	
+
 	public Solution getSolution(){ 
 		return solution;
 	}
 	public void setSolution(Solution solution){  // done for testing purposes
 		this.solution= solution;
+	}
+	
+	public void setComputerPlayer(ArrayList<ComputerPlayer> cplayers){
+		this.cplayers= cplayers;
+	}
+	public void setHumanPlayer(HumanPlayer hplayer){
+		this.hplayer= hplayer;
+	}
+	public ArrayList<ComputerPlayer> getComputerPlayers(){
+		return cplayers;
+	}
+	
+	
+	public HumanPlayer getHumanPlayer(){
+		return hplayer;
 	}
 	
 	

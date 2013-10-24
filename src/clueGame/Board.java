@@ -10,7 +10,13 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+<<<<<<< HEAD
 import javax.swing.text.html.HTMLDocument.Iterator;
+=======
+import cluePlayer.ComputerPlayer;
+import cluePlayer.HumanPlayer;
+import cluePlayer.Player;
+>>>>>>> 1cf01252f47c832b2c241f6aa2cad59252b57b7c
 
 /** Name: ebreikss
  *  Date: Oct 1, 2013
@@ -33,6 +39,8 @@ public class Board {
 	private Map<Integer, Boolean> visited;
 	// private Set<Integer> targets;
 	private Set<BoardCell> targets; // Suggested
+	private ArrayList<ComputerPlayer> cplayers;
+	private HumanPlayer hplayer;
 	
 	// ------------------------------------------------------------------
 	
@@ -346,6 +354,7 @@ public class Board {
 		return new Point(y,x);
 	}
 	
+	
 	// -----------------------------------------------------------------
 	// GETTERS 
 	public ArrayList<BoardCell> getCells() {
@@ -363,5 +372,6 @@ public class Board {
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
+	
 	// -----------------------------------------------------------------
 }

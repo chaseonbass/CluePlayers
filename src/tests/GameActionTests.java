@@ -1,6 +1,9 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import cluePlayer.*;
 import clueGame.*;
 
@@ -8,13 +11,23 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cluePlayer.Card;
 import cluePlayer.Card.CardType;
 import cluePlayer.ClueGame;
+import cluePlayer.HumanPlayer;
 import cluePlayer.Solution;
 import cluePlayer.Suggestion;
+import clueGame.Board;
 
 public class GameActionTests {
-	public  static ClueGame cg;
+	public static ClueGame cg;
+	
+	public static Card kittenCard;
+	public static Card batmanCard;
+	public static Card libraryCard;
+	public static Card jokerCard;
+	public static Card batarangCard;
+	public static Card conservatoryCard;
 
 
 	@BeforeClass
@@ -23,6 +36,13 @@ public class GameActionTests {
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 		cg.board.loadConfigFiles();
 		cg.board.calcAdjacencies();
+		kittenCard = new Card("Kitten", Card.CardType.WEAPON);
+		batarangCard = new Card("BatarangCard", Card.CardType.WEAPON);
+		batmanCard = new Card("Batman", Card.CardType.PERSON);
+		jokerCard = new Card("Joker", Card.CardType.PERSON);
+		libraryCard = new Card("Library", Card.CardType.ROOM);
+		conservatoryCard = new Card("Conservatory", Card.CardType.ROOM);
+		
 	}
 	
 	//test to make sure the right accusations is made.
@@ -47,6 +67,7 @@ public class GameActionTests {
 	@Test
 	public void testTargetRandomSelection() {
 	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15, cg.board);
+
 	// Pick a location with no rooms in target, just three targets
 	cg.board.startTargets(0, 20, 2);
 	int loc_2_20Tot = 0;
@@ -135,11 +156,150 @@ public class GameActionTests {
 	assertTrue(loc_5_18Tot > 9);							
 }
 	
+	
+	
+	@Test
 	public void disproveSuggestion(){
+		Player player = new Player();
+		Card suspected = new Card();
+		player.addCard(batarangCard);
+		player.addCard(batmanCard);
+		player.addCard(conservatoryCard);
+		player.addCard(jokerCard);
+		player.addCard(kittenCard);
+		player.addCard(libraryCard);
 		
+		//One player, one correct match
+		suspected= player.disproveSuggestion("Batman", "Study", "The Force" );
+		Assert.assertEquals(batmanCard, suspected);
+		suspected= player.disproveSuggestion("Penguin", "Library", "The Force");
+		Assert.assertEquals(libraryCard, suspected);
+		suspected= player.disproveSuggestion("Penguin", "Study", "Kitten");
+		Assert.assertEquals(kittenCard, suspected);
+		suspected= player.disproveSuggestion("Penguin", "Study", "The Force");
+		Assert.assertEquals(null, suspected);
+
+	}
+	
+	@Test
+		//One player, multiple matches
+	public void multiplematches(){
+		Player player = new Player();
+		Card suspected = new Card();
+		suspected= player.disproveSuggestion("Batman", "Batarang", "Library" );
+		int timesBatChosen =0;
+		int timesBataChosen= 0;
+		int timesLibChosen= 0;
+		
+		Player player2= new Player();
+		
+		for(int i= 0; i < 100; i++){
+			if(suspected.equals(batmanCard)){
+				timesBatChosen++;
+			}
+				else if(suspected.equals(batarangCard)){
+					timesBataChosen++;
+				}
+				else if(suspected.equals(libraryCard)){
+					timesLibChosen++;
+			}
+				else 
+					fail("That card was not part of the suggestion");
+			
+		}
+		
+		Assert.assertTrue(timesBataChosen > 10);  //tests that the batarang is chosen few time
+		Assert.assertTrue(timesBatChosen > 10);    // tests that the bat is chosen few times
+		Assert.assertTrue(timesLibChosen > 10);    // tests that the library was chosen few times
+		
+		
+		
+		timesBataChosen= 0;
+		timesLibChosen= 0;
+		
+		
+		//match weapon and room
+		for(int i= 0; i < 100; i++){
+				if(suspected.equals(batarangCard)){
+					timesBataChosen++;
+				}
+				else if(suspected.equals(libraryCard)){
+					timesLibChosen++;
+			}
+				else 
+					fail("That card was not part of the suggestion");
+			
+		}
+		
+		Assert.assertTrue(timesBataChosen > 10);  //tests that the batarang is chosen few time
+		Assert.assertTrue(timesLibChosen > 10);    // tests that the bat is chosen few times
+		
+		
+		
+		//match person and room
+		timesBatChosen= 0;
+		timesLibChosen= 0;
+		for(int i= 0; i < 100; i++){
+				if(suspected.equals(batmanCard)){
+					timesBatChosen++;
+				}
+				else if(suspected.equals(libraryCard)){
+					timesLibChosen++;
+			}
+				else 
+					fail("That card was not part of the suggestion");
+			
+		}
+		
+		Assert.assertTrue(timesBatChosen > 10);  //tests that the Batman is chosen few time
+		Assert.assertTrue(timesLibChosen > 10);    // tests that the bat is chosen few times
 		
 	}
 	
+	public void testAllPlayerinQueried(){
+		ArrayList<ComputerPlayer> cplayers = new ArrayList<ComputerPlayer>();
+		HumanPlayer hplayer= new HumanPlayer("Batman", "Black", 7, 20, cg.board);
+		Card suggestion= new Card();
+		ComputerPlayer cplayer1 = new ComputerPlayer();
+		cplayer1.addCard(batarangCard);
+		cplayers.add(cplayer1);
+		ComputerPlayer cplayer2 = new ComputerPlayer();
+		cplayer2.addCard(libraryCard);
+		cplayers.add(cplayer2);
+		ComputerPlayer cplayer3 = new ComputerPlayer();
+		cplayer3.addCard(conservatoryCard);
+		cplayers.add(cplayer3);
+		ComputerPlayer cplayer4 = new ComputerPlayer();
+		cplayer4.addCard(jokerCard);
+		cplayers.add(cplayer4);
+		ComputerPlayer cplayer5 = new ComputerPlayer();
+		cplayer5.addCard(kittenCard);
+		cplayers.add(cplayer5);
+		
+		cg.setComputerPlayer(cplayers);
+		cg.setHumanPlayer(hplayer);
+		
+		//A suggestion that no player can prove
+		suggestion= cg.handleSuggestion("Penguin", "Kitchen", "The Force", cplayer5 );
+		Assert.assertEquals(null, suggestion);
+		
+		//A suggestion only human can prove
+		suggestion= cg.handleSuggestion("Batman", "Kitchen", "The Force", cplayer2);
+		Assert.assertEquals("Batman", suggestion);
+		
+		//cplayer1 makes the suggestion and is the only who can disprove it
+		suggestion= cg.handleSuggestion("Penguin", "Kitchen", "Batarang", cplayer1);
+		Assert.assertEquals(null, suggestion);
+		
+		//hplayer makes the suggestion and is the only who can disprove it
+		suggestion= cg.handleSuggestion("Batman", "Kitchen", "The Force", hplayer);
+		Assert.assertEquals(null, suggestion);
+		
+		//test the order the players are queried
+		suggestion= cg.handleSuggestion("Batman", "Kitchen", "Kitten", cplayer1);
+		Assert.assertEquals(batmanCard, "Batman");
+		Assert.assertEquals(kittenCard, "Kitten");
+	}
 	public void addCardstoSeen(Card b){
 		cg.addSeenCards(b);
 		
