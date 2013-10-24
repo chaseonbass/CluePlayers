@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import cluePlayer.ComputerPlayer;
+import cluePlayer.HumanPlayer;
+import cluePlayer.Player;
+
 /** Name: ebreikss
  *  Date: Oct 1, 2013
  *  Purpose:
@@ -31,6 +35,8 @@ public class Board {
 	private Map<Integer, Boolean> visited;
 	// private Set<Integer> targets;
 	private Set<BoardCell> targets; // Suggested
+	private ArrayList<ComputerPlayer> cplayers;
+	private HumanPlayer hplayer;
 	
 	// ------------------------------------------------------------------
 	
@@ -341,6 +347,7 @@ public class Board {
 		return new Point(y,x);
 	}
 	
+	
 	// -----------------------------------------------------------------
 	// GETTERS 
 	public ArrayList<BoardCell> getCells() {
@@ -358,5 +365,6 @@ public class Board {
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
+	
 	// -----------------------------------------------------------------
 }
