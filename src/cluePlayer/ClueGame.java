@@ -19,6 +19,12 @@ public class ClueGame {
 	public Map<String, Player> players;
 	public Map <String, Card> cards;
 	private Solution solution;
+	public Board board;
+	
+	public ClueGame(String boardFile, String legendFile){
+		board = new Board(boardFile, legendFile);
+		seenCards = new HashSet<Card>();
+	}
 	
 	public ClueGame(){
 		seenCards = new HashSet<Card>();
@@ -112,11 +118,11 @@ public class ClueGame {
 				line = legendIn.nextLine().split(", ");
 				name = line[0];
 				if(lineNumber == 0){
-					Player p = new HumanPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+					Player p = new HumanPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]), board);
 					players.put(line[0], p);
 				}
 				else{
-					Player p = new ComputerPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+					Player p = new ComputerPlayer(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]), board);
 					players.put(line[0],p);  // adds the player
 				}
 				Card c = new Card(line[0], CardType.PERSON);

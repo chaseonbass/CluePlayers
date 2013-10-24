@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import clueGame.Board;
+
 public class Player implements Comparable {
 	private Map <String, Card> cards;
 	private String name, color;
-	private int index, row, column;
+	protected int index, row, column;
+	Board board;
 	public Card disproveSuggestion(String person, String room, String weapon){
 		return new Card();
 	}
@@ -19,12 +22,13 @@ public class Player implements Comparable {
 	
 
 
-	public Player(String name, String color, int row, int column) {
+	public Player(String name, String color, int row, int column, Board board) {
 		super();
 		this.name = name;
 		this.color = color;
 		this.row = row;
 		this.column = column;
+		this.board = board;
 		cards = new HashMap<String , Card>();
 	}
 

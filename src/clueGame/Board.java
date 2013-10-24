@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 /** Name: ebreikss
  *  Date: Oct 1, 2013
  *  Purpose:
@@ -298,7 +300,10 @@ public class Board {
 	
 	public void calcTargets(int index, int steps){
 		// called inside startTargets()
-		LinkedList<Integer> temp =  getAdjList(index);
+		LinkedList<Integer> temp = new LinkedList<Integer>();
+
+		temp = adjMap.get(index);  // tempo is a LinkedList<Integer>	
+		temp = (LinkedList<Integer>) temp.clone();
 
 		for (int adj : temp) {
 			if(visited.get(adj)){

@@ -16,10 +16,13 @@ import cluePlayer.Suggestion;
 public class GameActionTests {
 	public  static ClueGame cg;
 
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		cg = new ClueGame();
+		cg = new ClueGame("BoardLayout.csv", "legend.txt");
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
+		cg.board.loadConfigFiles();
+		cg.board.calcAdjacencies();
 	}
 	
 	//test to make sure the right accusations is made.
@@ -43,21 +46,20 @@ public class GameActionTests {
 	}
 	@Test
 	public void testTargetRandomSelection() {
-		Board board = new Board("BoardLayout.csv", "legend.txt");
-	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15);
+	ComputerPlayer player = new ComputerPlayer("Joker", "Green", 9, 15, cg.board);
 	// Pick a location with no rooms in target, just three targets
-	board.calcTargets(board.calcIndex(0,20), 2);
+	cg.board.startTargets(0, 20, 2);
 	int loc_2_20Tot = 0;
 	int loc_1_19Tot = 0;
 	int loc_0_18Tot = 0;
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
-		BoardCell selected = player.pickLocation(board.getTargets());
-		if (selected == board.getCellAt(2, 20))
+		BoardCell selected = player.pickLocation(cg.board.getTargets());
+		if (selected == cg.board.getCellAt(2, 20))
 			loc_2_20Tot++;
-		else if (selected == board.getCellAt(1,19))
+		else if (selected == cg.board.getCellAt(1,19))
 			loc_1_19Tot++;
-		else if (selected == board.getCellAt(0, 18))
+		else if (selected == cg.board.getCellAt(0, 18))
 			loc_0_18Tot++;
 		else
 			fail("Invalid target selected");
@@ -65,27 +67,28 @@ public class GameActionTests {
 	// Ensure we have 100 total selections (fail should also ensure)
 	assertEquals(100, loc_2_20Tot + loc_1_19Tot + loc_0_18Tot);
 	// Ensure each target was selected more than once
+	System.out.println(loc_2_20Tot);
+	System.out.println(loc_1_19Tot);
 	assertTrue(loc_2_20Tot > 10);
 	assertTrue(loc_1_19Tot > 10);
 	assertTrue(loc_0_18Tot > 10);							
 }
 	@Test
 	public void testTargetRoomSelectionNotVisited() {
-		Board board = new Board("BoardLayout.csv", "legend.txt");
 	// Ensures room loc is picked everytime
-	board.calcTargets(board.calcIndex(5,20), 2);
+	cg.board.startTargets(5, 20, 2);
 	int loc_7_20Tot = 0;
 	int loc_6_19Tot = 0;
 	int loc_5_18Tot = 0;
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
-		ComputerPlayer player = new ComputerPlayer();
-		BoardCell selected = player.pickLocation(board.getTargets());
-		if (selected == board.getCellAt(2, 20)) 
+		ComputerPlayer player = new ComputerPlayer("Devil", "Red", 5, 20, cg.board);
+		BoardCell selected = player.pickLocation(cg.board.getTargets());
+		if (selected.equals(cg.board.getCellAt(7, 20))) 
 			loc_7_20Tot++;
-		else if (selected == board.getCellAt(1,19))
+		else if (selected == cg.board.getCellAt(6,19))
 			loc_6_19Tot++;
-		else if (selected == board.getCellAt(0, 18))
+		else if (selected == cg.board.getCellAt(5, 18))
 			loc_5_18Tot++;
 		else
 			fail("Invalid target selected");
@@ -99,29 +102,34 @@ public class GameActionTests {
 }
 	@Test
 	public void testTargetRoomSelectionVisited() {
-		Board board = new Board("BoardLayout.csv", "legend.txt");
-		ComputerPlayer player = new ComputerPlayer();
-		player.pickLocation(board.getTargets());  // picks location to set that room to visited
+		ComputerPlayer player = new ComputerPlayer("Devil", "Red", 5, 20, cg.board);
+		player.pickLocation(cg.board.getTargets());  // picks location to set that room to visited
 	// Ensures room loc is picked everytime
-	board.calcTargets(board.calcIndex(5,20), 2);
+	cg.board.startTargets(5, 20, 2);
 	int loc_7_20Tot = 0;
 	int loc_6_19Tot = 0;
 	int loc_5_18Tot = 0;
+	int loc_4_19Tot = 0;
+	int loc_3_20Tot = 0;
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
-		BoardCell selected = player.pickLocation(board.getTargets());
-		if (selected == board.getCellAt(2, 20)) 
+		BoardCell selected = player.pickLocation(cg.board.getTargets());
+		System.out.println(selected);
+		if (selected == cg.board.getCellAt(7, 20)) 
 			loc_7_20Tot++;
-		else if (selected == board.getCellAt(1,19))
+		else if (selected == cg.board.getCellAt(6,19))
 			loc_6_19Tot++;
-		else if (selected == board.getCellAt(0, 18))
+		else if (selected == cg.board.getCellAt(3, 20))
+			loc_3_20Tot++;
+		else if (selected == cg.board.getCellAt(4, 19))
+			loc_4_19Tot++;
+		else if (selected == cg.board.getCellAt(5, 18))
 			loc_5_18Tot++;
-		else
-			fail("Invalid target selected");
 	}
 	// Ensure we have 100 total selections (fail should also ensure)
-	assertEquals(100, loc_7_20Tot + loc_6_19Tot + loc_5_18Tot);
+	assertEquals(100, loc_7_20Tot + loc_6_19Tot + loc_5_18Tot + loc_4_19Tot + loc_3_20Tot );
 	// Ensure the selection was made at random instead of always choosing the room
+	System.out.println(loc_7_20Tot+" " + loc_6_19Tot + " "+ loc_5_18Tot );
 	assertTrue(loc_7_20Tot > 9);
 	assertTrue(loc_6_19Tot >  9);
 	assertTrue(loc_5_18Tot > 9);							
@@ -139,7 +147,7 @@ public class GameActionTests {
 	
 	@Test
 	public void makeSuggestion(){  //  tests that correct suggestion is made by making all but three cards seen
-		ComputerPlayer player = new ComputerPlayer("Joker", "Green", 7, 20);
+		ComputerPlayer player = new ComputerPlayer("Joker", "Green", 7, 20, cg.board);
 		Suggestion sugg = new Suggestion ("Penguin", "Rotary Saw", "Study");
 		int timesSChosen= 0;
 		int timesFChosen = 0;

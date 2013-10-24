@@ -5,7 +5,23 @@ package clueGame;
  */
 
 public class RoomCell extends BoardCell {
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoomCell other = (RoomCell) obj;
+		if (doorDirection != other.doorDirection)
+			return false;
+		if (roomType != other.roomType)
+			return false;
+		return true;
+	}
+
 	public enum DoorDirection {
 		
 		RIGHT ("Right"),

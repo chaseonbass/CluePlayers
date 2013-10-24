@@ -25,7 +25,7 @@ public class TargetAndAdjTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//System.out.println("In @BeforeClass");
-		board = new Board("boardLayout.csv", "legend");
+		board = new Board("BreikssBoard.csv", "legend");
 		board.loadConfigFiles();
 		
 		//board.initBoard(board.getNumRows(),board.getNumColumns());

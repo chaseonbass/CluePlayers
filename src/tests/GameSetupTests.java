@@ -17,8 +17,9 @@ public class GameSetupTests {
 	public  static ClueGame cg;
 	@BeforeClass
 	public static void configGame(){  // obviously the setup needed for the tests
-		cg = new ClueGame();
+		cg = new ClueGame("BoardLayout.csv", "legend.txt");
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
+		
 	}
 	
 	
@@ -27,9 +28,9 @@ public class GameSetupTests {
 		int expected = 6; //amount of players in file
 		int actual = cg.players.size();  // gets the size of the Map that contains the players loaded
 		Assert.assertEquals(expected, actual); //testing that amount of players is correct
-		Player b = new Player("Batman", "Black", 6, 3);  // creating players with appropriate creds
-		Player c = new Player("Joker", "Green", 15, 1);
-		Player d = new Player("Penguin", "White", 8, 0);
+		Player b = new Player("Batman", "Black", 6, 3, cg.board);  // creating players with appropriate creds
+		Player c = new Player("Joker", "Green", 15, 1, cg.board);
+		Player d = new Player("Penguin", "White", 8, 0, cg.board);
 		Assert.assertTrue(cg.players.containsKey("Batman"));  //ensure Batman is in the map
 		Assert.assertTrue(cg.players.containsKey("Joker"));  // ensure his friends are there too
 		Assert.assertTrue(cg.players.containsKey("Penguin"));
