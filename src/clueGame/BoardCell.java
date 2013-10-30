@@ -1,10 +1,13 @@
 package clueGame;
+
+import java.awt.Graphics;
+
 /** Name: ebreikss
  *  Date: Oct 1, 2013
  *  Purpose:
  */
 
-public class BoardCell {
+public abstract class BoardCell {
 	
 
 	@Override
@@ -24,9 +27,10 @@ public class BoardCell {
 	}
 
 	// These are used later for draw()
-	private int row;
-	private int col;
-
+	protected int row;
+	protected int col;
+	public abstract void draw(Graphics g, Board b);
+	
 	public boolean isWalkway() {
 		return false;
 	}
@@ -38,6 +42,4 @@ public class BoardCell {
 	public boolean isDoorway() {
 		return false;
 	}
-	
-	// public void draw() 
 }

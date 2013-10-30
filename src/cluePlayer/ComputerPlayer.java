@@ -1,5 +1,6 @@
 package cluePlayer;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -17,9 +18,9 @@ public class ComputerPlayer extends Player{
 	
 	public ComputerPlayer(String name, String color, int row, int column, Board board) {
 		super(name, color, row, column, board);
-		if(board.getCellAt(board.calcIndex(row, column)).isRoom()){
-			lastVisited = board.getRoomCellAt(board.calcIndex(row,column));
-		}
+/*		if(board.getCellAt(board.calcIndex(row, column)).isRoom()){
+			lastVisited = board.getRoomCellAt(board.calcIndex(row,column));*/
+		//}
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -91,6 +92,9 @@ public class ComputerPlayer extends Player{
 		rCard = cards.get(rooms.get(lastVisited.getRoomType()));
 		Suggestion guess = new Suggestion(pName, wName, rCard.getName());
 		return guess;
+	}
+	public void draw(Graphics g, Board b){
+		super.draw(g, b);
 	}
 
 	

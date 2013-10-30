@@ -1,4 +1,8 @@
 package clueGame;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 /** Name: ebreikss
  *  Date: Oct 1, 2013
  *  Purpose:
@@ -51,7 +55,7 @@ public class RoomCell extends BoardCell {
 		roomType = 'W';
 	}
 	
-	public RoomCell(String config) {
+	public RoomCell(String config, int row, int column) {
 		// break up 'config' and set direction
 		if (config.length() > 1){
 			String dir = config.substring(1,2);
@@ -71,6 +75,8 @@ public class RoomCell extends BoardCell {
 		
 		// Now grab first letter
 		roomType = config.toCharArray()[0];
+		this.row = row;
+		this.col = column;
 	}
 	
 	public RoomCell(RoomCell aRoomCell) {
@@ -98,6 +104,47 @@ public class RoomCell extends BoardCell {
 	
 	public String toString(){
 		return "Room Initial: " + roomType + ". DoorDirection: " + doorDirection + "\n";
+	}
+	int doorWayLineThickness = 10;
+
+	@Override
+	public void draw(Graphics g, Board b) {
+		Color c = new Color(100,100,250);
+		if(isDoorway()){
+			if(doorDirection == DoorDirection.DOWN){
+				g.setColor(c);
+				g.fillRect(col*b.getBlockSize(), row*b.getBlockSize()+b.getBlockSize()-doorWayLineThickness, b.getBlockSize(), doorWayLineThickness);
+			}
+			else if(doorDirection == DoorDirection.UP){
+				g.setColor(c);
+				g.fillRect(col*b.getBlockSize(), row*b.getBlockSize(), b.getBlockSize(), doorWayLineThickness);
+			}
+			else if(doorDirection == DoorDirection.RIGHT){
+				g.setColor(c);
+				g.fillRect(col*b.getBlockSize()+b.getBlockSize()-doorWayLineThickness, row*b.getBlockSize(), doorWayLineThickness, b.getBlockSize());
+			}
+			else if(doorDirection == DoorDirection.LEFT){
+				g.setColor(c);
+				g.fillRect(col*b.getBlockSize(), row*b.getBlockSize(), doorWayLineThickness, b.getBlockSize());
+			}
+		}
+		g.setColor(c);
+		if(row == 3 && col == 1)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 3 && col == 9)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 3 && col == 15)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 9 && col == 2)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 9 && col == 17)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 20 && col == 1)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 20 && col == 11)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
+		else if(row == 20 && col == 18)
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
 	}
 
 

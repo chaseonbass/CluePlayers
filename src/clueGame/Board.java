@@ -1,4 +1,5 @@
 package clueGame;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,22 +10,24 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import cluePlayer.ComputerPlayer;
-import cluePlayer.HumanPlayer;
-import cluePlayer.Player;
+import javax.swing.*;
+
+import cluePlayer.*;
+
 
 /** Name: ebreikss
  *  Date: Oct 1, 2013
  *  Purpose:
  */
 
-public class Board {
+public class Board extends JPanel {
 
 	private ArrayList<BoardCell> cells; // Not yet implemented
 	private int numRows;
 	private int numColumns;
 	private String layout, legend;
 	private Map<Character, String> rooms; // from legend
+	private static final int BLOCKSIZE = 30;
 	
 	// ------------------------------------------------------------------
 	
@@ -36,6 +39,7 @@ public class Board {
 	private Set<BoardCell> targets; // Suggested
 	private ArrayList<ComputerPlayer> cplayers;
 	private HumanPlayer hplayer;
+	private ClueGame game;
 	
 	// ------------------------------------------------------------------
 	
@@ -45,11 +49,21 @@ public class Board {
 		layout = "ClueLayout.csv";
 		legend = "ClueLegend.txt";
 	}
+	protected void paintComponent(Graphics g){
+		loadConfigFiles();
+		System.out.println(cells.size());
+		super.paintComponents(g);
+		for(int i = 0; i < cells.size(); i++){
+			cells.get(i).draw(g, this);
+		}
+		//game.drawPlayers(g);
+	}
 	
-	public Board(String layout, String legend) {  
+	public Board(String layout, String legend, ClueGame game) {  
 		super();
 		this.layout = layout;
 		this.legend = legend;
+		this.game = game;
 
 	}
 	
@@ -96,6 +110,7 @@ public class Board {
 
 		// Store our cvs file into an ArrayList
 		ArrayList<String[]> tempList = new ArrayList<String[]>();
+		int colNum = 0;
 		
 		while (layoutIn.hasNextLine()) {
 			// Create an array of string arrays
@@ -121,13 +136,16 @@ public class Board {
 						throw new BadConfigFormatException(layout, RoomInitial, i);
 					} else {
 						if (RoomInitial.equals("W"))
-							cells.add(new Walkway());
+							cells.add(new Walkway(i, colNum));
 						else {
-							cells.add(new RoomCell(RoomInitial));
+							cells.add(new RoomCell(RoomInitial, i, colNum));
 						}
 					}
+					colNum ++;
 				}
+				
 			}
+			colNum = 0;
 		}
 		
 		numColumns = testLength;
@@ -162,7 +180,7 @@ public class Board {
 		
 		if (cells.get(calcIndex(rowNum, columnNum)) instanceof RoomCell)
 			return (RoomCell) cells.get(calcIndex(rowNum, columnNum));
-		return new RoomCell("XN");
+		return new RoomCell("XN", rowNum, columnNum);
 	}
 
 	 //overloaded getRoomCellAt
@@ -175,7 +193,7 @@ public class Board {
 		
 		if (cells.get(index) instanceof RoomCell)
 			return (RoomCell) cells.get(index);
-		return new RoomCell("XN");
+		return new RoomCell("XN", index/numColumns, index%numColumns);
 	}
 	
 	// Alternate getCell function, cuz the one above is annoying!
@@ -365,6 +383,9 @@ public class Board {
 
 	public Map<Character, String> getRooms() {
 		return rooms;
+	}
+	public int getBlockSize(){
+		return BLOCKSIZE;
 	}
 	
 	// -----------------------------------------------------------------

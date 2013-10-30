@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import cluePlayer.ClueGame;
 
 public class TargetAndAdjTests {
 
@@ -25,7 +26,7 @@ public class TargetAndAdjTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//System.out.println("In @BeforeClass");
-		board = new Board("BreikssBoard.csv", "legend");
+		board = new Board("BreikssBoard.csv", "legend", new ClueGame());
 		board.loadConfigFiles();
 		
 		//board.initBoard(board.getNumRows(),board.getNumColumns());

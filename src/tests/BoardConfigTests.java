@@ -22,6 +22,7 @@ import clueGame.BoardCell;
 import clueGame.RoomCell;
 import experiment.IntBoard;
 import clueGame.DoorDirection;
+import cluePlayer.ClueGame;
 
 public class BoardConfigTests {
 
@@ -33,7 +34,7 @@ public class BoardConfigTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		System.out.println("In @BeforeClass");
-		board = new Board("boardLayout.csv", "legend");
+		board = new Board("boardLayout.csv", "legend", new ClueGame());
 		board.loadConfigFiles();
 		
 	}
@@ -183,21 +184,21 @@ public class BoardConfigTests {
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
 		System.out.println("In @testBadColumns");
-		Board b = new Board("OurClueLayoutBadColumns.csv", "legend");
+		Board b = new Board("OurClueLayoutBadColumns.csv", "legend", new ClueGame());
 		b.loadConfigFiles();
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRooms() throws BadConfigFormatException, FileNotFoundException {
 		System.out.println("In @testBadRooms");
-		Board b = new Board("OurClueLayoutBadRoom.csv", "legend");
+		Board b = new Board("OurClueLayoutBadRoom.csv", "legend", new ClueGame());
 		b.loadConfigFiles();	
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
 		System.out.println("In @testBadRoomFormat");
-		Board b = new Board("boardLayout.csv", "OurClueLegendBadFormat");
+		Board b = new Board("boardLayout.csv", "OurClueLegendBadFormat", new ClueGame());
 		b.loadConfigFiles();
 	}
 	

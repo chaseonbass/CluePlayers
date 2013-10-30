@@ -1,5 +1,9 @@
 package cluePlayer;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -9,29 +13,52 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.RoomCell;
 import cluePlayer.Card.CardType;
 
-public class ClueGame {
+public class ClueGame extends JFrame {
 	private Set<Card> seenCards;
 	public Map<String, Player> players;
 	public Map <String, Card> cards;
 	private Solution solution;
 	public Board board;
 	
-	public ClueGame(String boardFile, String legendFile){
-		board = new Board(boardFile, legendFile);
+	public ClueGame(String boardFile, String legendFile, String peopleFile, String weaponFile){
+		loadConfigFiles(legendFile, weaponFile, peopleFile);
+		board = new Board(boardFile, legendFile, this);
 		board.loadConfigFiles();
 		board.calcAdjacencies();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle ("Clue Game");
+		setSize (board.getNumColumns()*board.getBlockSize()+30, board.getNumRows()*board.getBlockSize()+50);
+		
+		add(createCenterLayout(), BorderLayout.CENTER);
 		seenCards = new HashSet<Card>();
 	}
+	
 	private HumanPlayer hplayer;
 	private ArrayList<ComputerPlayer> cplayers;
 	
 	public ClueGame(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle ("Clue Game");
+		setSize (700,200);
+		
+		add(createCenterLayout(), BorderLayout.CENTER);
 		seenCards = new HashSet<Card>();
+	}
+	public Component createCenterLayout(){
+		JPanel panel= new JPanel();
+		panel.setLayout(new GridLayout(1,3));
+		panel.add(board);
+		return panel;
+		
 	}
 	
 	public void addSeenCards(Card c){
@@ -188,12 +215,21 @@ public class ClueGame {
 	public ArrayList<ComputerPlayer> getComputerPlayers(){
 		return cplayers;
 	}
-	
-	
 	public HumanPlayer getHumanPlayer(){
 		return hplayer;
 	}
-	
+	public void drawPlayers(Graphics g){
+		for(String name : players.keySet()){
+			g.setColor(players.get(name).convertColor(players.get(name).getColor()));
+			players.get(name).draw(g, board);
+			
+		}
+	}
+	public static void main(String args[]){
+		ClueGame gui= new ClueGame("BoardLayout.csv", "legend.txt", "Players.txt", "Weapons.txt");
+		gui.setVisible (true);
+		
+	}
 	
 	
 }

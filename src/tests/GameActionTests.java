@@ -32,7 +32,7 @@ public class GameActionTests {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		cg = new ClueGame("BoardLayout.csv", "legend.txt");
+		cg = new ClueGame("BoardLayout.csv", "legend.txt", "Players.txt", "Weapons.txt");
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 		kittenCard = new Card("Kitten", Card.CardType.WEAPON);
 		batarangCard = new Card("Batarang", Card.CardType.WEAPON);

@@ -17,7 +17,7 @@ public class GameSetupTests {
 	public  static ClueGame cg;
 	@BeforeClass
 	public static void configGame(){  // obviously the setup needed for the tests
-		cg = new ClueGame("BoardLayout.csv", "legend.txt");
+		cg = new ClueGame("BoardLayout.csv", "legend.txt", "Players.txt", "Weapons.txt");
 		cg.loadConfigFiles("legend", "Weapons.txt", "Players.txt");
 		
 	}

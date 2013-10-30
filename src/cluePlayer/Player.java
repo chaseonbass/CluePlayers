@@ -1,5 +1,8 @@
 package cluePlayer;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.text.Format.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +15,7 @@ import clueGame.Board;
 public class Player implements Comparable {
 	private Map <String, Card> cards;
 	private String name, color;
+	private Color c;
 	protected int index, row, column;
 	Board board;
 	public Card disproveSuggestion(String person, String room, String weapon){
@@ -36,7 +40,17 @@ public class Player implements Comparable {
 	public Player(){
 		cards = new HashMap<String , Card>();
 	}
-
+	public Color convertColor(String strColor) {
+		Color color; 
+		try {     
+			// We can use reflection to convert the string to a color
+			java.lang.reflect.Field field = Class.forName("java.awt.Color").getField(strColor.toLowerCase().trim());     
+			color = (Color)field.get(null); } 
+		catch (Exception e) {  
+			color = null; // Not defined } 
+		}
+		return color;
+	}
 
 
 	public Player(String name, String color, int row, int column, Board board) {
@@ -46,6 +60,7 @@ public class Player implements Comparable {
 		this.row = row;
 		this.column = column;
 		this.board = board;
+		c = convertColor(color);
 		cards = new HashMap<String , Card>();
 	}
 
@@ -86,6 +101,11 @@ public class Player implements Comparable {
 			}
 		}
 		return 0;
+	}
+	public void draw(Graphics g, Board b){
+		g.setColor(convertColor(color));
+		g.fillOval(column*b.getBlockSize(), row*b.getBlockSize(), b.getBlockSize(), b.getBlockSize());
+		
 	}
 
 
