@@ -128,7 +128,7 @@ public class RoomCell extends BoardCell {
 				g.fillRect(col*b.getBlockSize(), row*b.getBlockSize(), doorWayLineThickness, b.getBlockSize());
 			}
 		}
-/*		g.setColor(c);
+		g.setColor(c);
 		if(row == 3 && col == 1)
 			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
 		else if(row == 3 && col == 9)
@@ -144,7 +144,7 @@ public class RoomCell extends BoardCell {
 		else if(row == 20 && col == 11)
 			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
 		else if(row == 20 && col == 18)
-			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());*/
+			g.drawString(b.getRooms().get(roomType), col*b.getBlockSize() ,row*b.getBlockSize());
 	}
 
 
