@@ -56,7 +56,7 @@ public class Board extends JPanel {
 		for(int i = 0; i < cells.size(); i++){
 			cells.get(i).draw(g, this);
 		}
-		//game.drawPlayers(g);
+		game.drawPlayers(g);
 	}
 	
 	public Board(String layout, String legend, ClueGame game) {  
