@@ -36,8 +36,9 @@ public class ClueGame extends JFrame {
 	
 	private JMenu createFileMenu(){
 	  JMenu menu = new JMenu("File"); 
-	  menu.add(createFileExitItem());
 	  menu.add(createFileNotesItem());
+	  menu.add(createFileExitItem());
+
 	  return menu;
 	}
 	private JMenuItem createFileExitItem(){
