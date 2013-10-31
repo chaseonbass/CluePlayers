@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -13,10 +15,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-
+import DetectiveNotesGUI.DetectiveNotesGUI;
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.RoomCell;
@@ -29,6 +30,40 @@ public class ClueGame extends JFrame {
 	private Solution solution;
 	public Board board;
 	
+	//File Menu
+	
+	private DetectiveNotesGUI dnotes;
+	
+	private JMenu createFileMenu(){
+	  JMenu menu = new JMenu("File"); 
+	  menu.add(createFileExitItem());
+	  menu.add(createFileNotesItem());
+	  return menu;
+	}
+	private JMenuItem createFileExitItem(){
+	  JMenuItem item = new JMenuItem("Exit");
+	  class MenuItemListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e)
+	    {
+	       System.exit(0);
+	    }
+	  }
+	  item.addActionListener(new MenuItemListener());
+	  return item;
+	}
+	private JMenuItem createFileNotesItem(){
+		  JMenuItem yournotes = new JMenuItem("Detective Notes");
+		  class MenuItemListener implements ActionListener {
+		    public void actionPerformed(ActionEvent e)
+		    {
+		       dnotes.setVisible(true);
+		    }
+		  }
+		 yournotes.addActionListener(new MenuItemListener());
+		  return yournotes;
+		}
+	
+	
 	public ClueGame(String boardFile, String legendFile, String peopleFile, String weaponFile){
 		loadConfigFiles(legendFile, weaponFile, peopleFile);
 		board = new Board(boardFile, legendFile, this);
@@ -37,7 +72,11 @@ public class ClueGame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle ("Clue Game");
 		setSize (board.getNumColumns()*board.getBlockSize()+30, board.getNumRows()*board.getBlockSize()+50);
-		
+		//File menu
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
+
 		add(createCenterLayout(), BorderLayout.CENTER);
 		seenCards = new HashSet<Card>();
 	}

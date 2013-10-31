@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import cluePlayer.Card.CardType;
-public class BoardGUI extends JDialog{
+public class DetectiveNotesGUI extends JDialog{
 	
 	
 	public Component createNorthLayout(){
@@ -38,10 +38,10 @@ public class BoardGUI extends JDialog{
 		panel.add(wgPanel);
 		return panel;
 	}
-	public BoardGUI(){
+	public DetectiveNotesGUI(){
 		setSize(new Dimension(600,600));
 		setTitle("Defective Notes");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		add(createNorthLayout(), BorderLayout.NORTH);
 		add(createCenterLayout(), BorderLayout.CENTER);
 		add(createSouthLayout(), BorderLayout.SOUTH);
@@ -50,8 +50,8 @@ public class BoardGUI extends JDialog{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		BoardGUI gui= new BoardGUI();
-		gui.setVisible(true);
+		DetectiveNotesGUI gui= new DetectiveNotesGUI();
+		gui.setVisible(false);
 	}
 
 }
