@@ -76,6 +76,7 @@ public class ClueGame extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
+		dnotes = new DetectiveNotesGUI(cards);
 
 		add(createCenterLayout(), BorderLayout.CENTER);
 		seenCards = new HashSet<Card>();
