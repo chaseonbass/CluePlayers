@@ -1,18 +1,15 @@
 package DetectiveNotesGUI;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import cluePlayer.Card;
 
 
 public class PeoplePanel extends JPanel{
 	private JCheckBox Batman, Joker, TwoFace, Ivy, Arnold, Penguin;
-	private ArrayList<Card> myCards;
 	public PeoplePanel(){
 		setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		Batman= new JCheckBox("Batman");

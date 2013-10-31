@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import cluePlayer.Card.CardType;
-public class BoardGUI extends JFrame{
+public class BoardGUI extends JDialog{
 	
 	
 	public Component createNorthLayout(){
